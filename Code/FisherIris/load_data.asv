@@ -1,0 +1,4 @@
+load fisheriris;
+X = meas;
+
+class1_train 
