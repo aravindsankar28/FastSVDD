@@ -10,11 +10,11 @@ best_g =0;
 
 % Fixing the values of C and gamma 
 
-for log2g = 2:1:2
-%for log2g = -2:1:2,
+%for log2g = 2:1:2
+for log2g = 1:1:1,
     K = computeKgm(train,ker,2^log2g);    
-    for C = 0.038:1:0.038
-    %for C = 0.008:0.005:0.06
+    %for C = 0.038:1:0.038
+    for C = 0.03:0.001:0.03
     [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(train,K,C); 
     [pred_val] = fsvdd_predict(val,ker,c_prime,2^log2g,gamma_f,x_hat);
     ac = sum(target_val == pred_val)/size(target_val,1);
@@ -54,13 +54,14 @@ fprintf('Test confusion matrix')
 C_test
 fprintf('Test accuracy %g  \n',sum(target_test == pred_test)/size(target_test,1));
 
-
+best_C
+best_g
 % Decn. region.
 
 xrange = [-6 12];
 yrange = [-6 12];
 
-inc = 0.02;
+inc = 0.2;
 [x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2)); 
 image_size = size(x); 
 xy = [x(:) y(:)]; % make (x,y) pairs as a bunch of row vectors.
@@ -100,5 +101,7 @@ plot(train_unscaled(svii,1),train_unscaled(svii,2),'k.');
 
 svi_bdd = find(alpha > best_C-epsilon & alpha < best_C+epsilon);
 plot(train_unscaled(svi_bdd,1),train_unscaled(svi_bdd,2),'g.');
-
+hold on;
+plot(x_hat(1),x_hat(2),'r.');
+legend('Non SVs','Unbounded SVs','Bounded SVs','Agent of center');
 %svi_bdd

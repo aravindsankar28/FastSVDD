@@ -1,5 +1,3 @@
-% Set c = 0.03 and g = 2
-
 load_data;
 
 ker = 'rbf';
@@ -9,13 +7,16 @@ best_C =0;
 best_g =0;
 
 %figure, imshow(mat2gray(K));
-for log2g = 1:1:1
-%for log2g = -2:1:2,
+
+% Fixing the values of C and gamma 
+
+%for log2g = 2:1:2
+for log2g = 1:1:1,
     K = computeKgm(train,ker,2^log2g);    
-    for C = 0.03:1:0.03
-    %for C = 0.008:0.004:0.06
-    [svi, alpha,c] = svdd_train(train,K,ker,C,2^log2g); 
-    [pred_val] = svdd_predict(train,val,ker,alpha,svi,c,2^log2g);
+    %for C = 0.038:1:0.038
+    for C = 0.03:0.001:0.03
+    [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(train,K,C,2^log2g); 
+    [pred_val] = fsvdd_predict(val,ker,c_prime,2^log2g,gamma_f,x_hat);
     ac = sum(target_val == pred_val)/size(target_val,1);
     ac
     if (ac >= bestcv),
@@ -27,11 +28,15 @@ end
 
 
 K = computeKgm(train,ker,best_g);
-[svi, alpha,c] = svdd_train(train,K,ker,best_C,best_g);
+[svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(train,K,best_C,best_g); 
 
-[pred_train] = svdd_predict(train,train,ker,alpha,svi,c,best_g);
-[pred_val] = svdd_predict(train,val,ker,alpha,svi,c,best_g);
-[pred_test] =svdd_predict(train,test,ker,alpha,svi,c,best_g);
+
+
+
+
+[pred_train] =fsvdd_predict(train,ker,c_prime,best_g,gamma_f,x_hat);
+[pred_val] = fsvdd_predict(val,ker,c_prime,best_g,gamma_f,x_hat);
+[pred_test] =fsvdd_predict(test,ker,c_prime,best_g,gamma_f,x_hat);
 
 fprintf('Train confusion matrix')
 [C_train,order1] = confusionmat(target_train,pred_train);
@@ -49,13 +54,14 @@ fprintf('Test confusion matrix')
 C_test
 fprintf('Test accuracy %g  \n',sum(target_test == pred_test)/size(target_test,1));
 
-
+best_C
+best_g
 % Decn. region.
 
 xrange = [-6 12];
 yrange = [-6 12];
 
-inc = 0.1;
+inc = 0.2;
 [x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2)); 
 image_size = size(x); 
 xy = [x(:) y(:)]; % make (x,y) pairs as a bunch of row vectors.
@@ -65,7 +71,7 @@ for i=1:size(xy,2)
     xy(:,i) = (xy(:,i)-min_coord(i))/(max_coord(i)-min_coord(i));
 end
 
-pred = svdd_predict(train,xy,ker,alpha,svi,c,best_g);
+pred = fsvdd_predict(xy,ker,c_prime,best_g,gamma_f,x_hat);
 
 
 figure;
@@ -96,5 +102,6 @@ plot(train_unscaled(svii,1),train_unscaled(svii,2),'k.');
 svi_bdd = find(alpha > best_C-epsilon & alpha < best_C+epsilon);
 plot(train_unscaled(svi_bdd,1),train_unscaled(svi_bdd,2),'g.');
 hold on;
-legend('Non SVs','Unbounded SVs','Bounded SVs');
+plot(x_hat(1),x_hat(2),'r.');
+legend('Non SVs','Unbounded SVs','Bounded SVs','Agent of center');
 %svi_bdd
