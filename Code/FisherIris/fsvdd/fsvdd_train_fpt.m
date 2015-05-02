@@ -13,7 +13,7 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
 %              b0     - bias term
 %
 %  Author: Aravind Sankar (!)
-
+  
   if (nargin <3 || nargin>4) % check correct number of arguments
     help svdd_train
   else
@@ -113,33 +113,21 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
     c_prime = 1 - R2 + 1/(gamma_f*gamma_f);
     
     % computin x_hat here.
-    min_coord_train = zeros(2,1);
-    max_coord_train = zeros(2,1);
-    
-    min_coord_train(1) = min(X(:,1));
-    min_coord_train(2) = min(X(:,2));
-    
-    max_coord_train(1) = max(X(:,1));
-    max_coord_train(2) = max(X(:,2));
-      
-    s1 = (max_coord_train(1) - min_coord_train(1))*rand(10,1) + min_coord_train(1); 
-    s2 = (max_coord_train(2) - min_coord_train(2))*rand(10,1) + min_coord_train(2);
-  
-    start_pts = [s1 s2];
    
+    s = zeros(size(X,2),1);
+    s = rand(size(X,2),1);
     
-    
-    x_hat = start_pts(1,:);
-    x_hat(1) = rand(1,1);
-    x_hat(2) = rand(1,1);
-    
-    for t = 1:1000
+    x_hat = s';
+    x_hat
+    for t = 1:100
         num = 0;
         den = 0;
         x_hat_old = x_hat;
         for i = 1:n
+            
             num = num + alpha(i)*svkernel_new('rbf',X(i,:),x_hat,gamma)*X(i,:);
             den = den + alpha(i)*svkernel_new('rbf',X(i,:),x_hat,gamma);
+            
         end
         x_hat = num/den;
         if pdist2(x_hat_old,x_hat) <= 10^(-6)
@@ -147,11 +135,9 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
             t
             break
         end
-    end
-    
+    end    
     x_hat = x_hat';
-    
-    x_hat
+
   end
  
     

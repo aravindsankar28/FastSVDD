@@ -1,4 +1,4 @@
-function predictedY = svdd_predict(trnX,tstX,ker,alpha,svi,c,gamma)
+function predictedY = fsvdd_predict(tstX,ker,c_prime,gamma,gamma_f,x_hat)
 %svdd_predict Calculate SVDD Outputs
 %
 %  Usage: predictedY = svdd_predict(trnX,trnY,tstX,ker,alpha,bias,actfunc)
@@ -16,16 +16,14 @@ function predictedY = svdd_predict(trnX,tstX,ker,alpha,svi,c,gamma)
   else
     
     m = size(tstX,1);
-    H = zeros(m,size(svi,1));
+    H = zeros(m,1);
 
     for i=1:m
-      for j=1:length(svi)
-        H(i,j) = svkernel_new(ker,tstX(i,:),trnX(svi(j),:),gamma);
-      end
+        H(i) = 2*svkernel_new(ker,tstX(i,:),x_hat',gamma)/gamma_f;
     end
-    alpha = alpha(svi);
+    %alpha = alpha(svi);
     
-    predictedY = sign(2*H*alpha - c);
+    predictedY = sign(H - c_prime);
       
   end
   end

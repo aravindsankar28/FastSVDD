@@ -1,0 +1,66 @@
+FSVDD - direct  - class 1 as target class 
+Averaged over 10 runs with different training data points. (N = 25)
+
+TAE 0.0256
+
+Avg val error 0.0567
+
+Avg test error 0.0158
+	
+
+Confusion matrix for one random run :
+
+Train confusion matrix
+C_train =
+
+     0     0
+     2    23
+
+Train accuracy 0.92  
+Validation confusion matrix
+C_val =
+
+    20     0
+     6     4
+
+Val accuracy 0.8  
+Test confusion matrix
+C_test =
+
+    80     0
+     1    14
+
+Test accuracy 0.989474  
+
+FSVDD - Fixed point iteration  - class 1 as target class 
+Averaged over 10 runs with different training data points. (N = 25)
+
+TAE = 0.0288 
+Avg val error = 0.0733333 
+Avg test error = 0.0147368 
+
+
+
+FSVDD - direct  - class 2 as target class 
+
+
+TAE = 0.076 
+Avg val error = 0.08 
+Avg test error = 0.0747368 
+
+FSVDD - Fixed point iteration  - class 2 as target class 
+TAE = 0.0864 
+Avg val error = 0.0833333 
+Avg test error = 0.0873684 
+
+
+FSVDD - direct  - class 3 as target class 
+
+TAE = 0.0864 
+Avg val error = 0.12 
+Avg test error = 0.0757895  
+
+FSVDD - Fixed point iteration  - class 3 as target class 
+TAE = 0.0832 
+Avg val error = 0.123333 
+Avg test error = 0.0705263 

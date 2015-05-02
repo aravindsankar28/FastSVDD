@@ -1,0 +1,25 @@
+SVDD
+Training time - 0.343202
+Testing time - 0.546003 
+Train confusion matrix
+C_train =
+
+     0     0
+    29   221
+
+Train accuracy 0.884  
+Validation confusion matrix
+C_val =
+
+   405    45
+    22   128
+
+Val accuracy 0.888333  
+Test confusion matrix
+C_test =
+
+   250    50
+    11    89
+
+Test accuracy 0.8475
+

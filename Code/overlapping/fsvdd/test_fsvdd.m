@@ -9,34 +9,39 @@ best_g =0;
 %figure, imshow(mat2gray(K));
 
 % Fixing the values of C and gamma 
-
-%for log2g = 2:1:2
-for log2g = 1:1:1,
-    K = computeKgm(train,ker,2^log2g);    
-    %for C = 0.038:1:0.038
-    for C = 0.03:0.001:0.03
+for g =4.4:1:4.4
+%for log2g = -3:0.5:3
+    K = computeKgm(train,ker,g);    
+    
+    for C = 0.036:1:0.036
+    %for C = 0.02:0.002:0.04
     [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(train,K,C); 
-    [pred_val] = fsvdd_predict(val,ker,c_prime,2^log2g,gamma_f,x_hat);
+    [pred_val] = fsvdd_predict(val,ker,c_prime,g,gamma_f,x_hat);
     ac = sum(target_val == pred_val)/size(target_val,1);
     ac
     if (ac >= bestcv),
-          bestcv = ac; best_C = C; best_g = 2^log2g; 
+          bestcv = ac; best_C = C; best_g = g; 
     end
-    fprintf('C=%g log2g=%g acc=%g (best C=%g, g=%g, acc=%g) \n', C, log2g, ac, best_C, best_g, bestcv);
+    fprintf('C=%g log2g=%g acc=%g (best C=%g, g=%g, acc=%g) \n', C, g, ac, best_C, best_g, bestcv);
     end
 end
 
 
+t = cputime;
 K = computeKgm(train,ker,best_g);
 [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(train,K,best_C); 
-
-
-
+e = cputime-t;
+fprintf('Training time - %g\n',e);
 
 
 [pred_train] =fsvdd_predict(train,ker,c_prime,best_g,gamma_f,x_hat);
 [pred_val] = fsvdd_predict(val,ker,c_prime,best_g,gamma_f,x_hat);
+
+t = cputime;
 [pred_test] =fsvdd_predict(test,ker,c_prime,best_g,gamma_f,x_hat);
+e = cputime-t;
+fprintf('Testing time - %g \n',e);
+
 
 fprintf('Train confusion matrix')
 [C_train,order1] = confusionmat(target_train,pred_train);
@@ -61,7 +66,7 @@ best_g
 xrange = [-6 12];
 yrange = [-6 12];
 
-inc = 0.2;
+inc = 0.1;
 [x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2)); 
 image_size = size(x); 
 xy = [x(:) y(:)]; % make (x,y) pairs as a bunch of row vectors.
@@ -89,7 +94,7 @@ a = xlabel('$x_1$');
 b = ylabel('$x_2$');
 set(a,'Interpreter','latex');
 set(b,'Interpreter','latex');
-title('Decision region plot showing boundary between normal and abnormal classes');
+title('Decision region plot showing boundary between normal and abnormal classes for FSVDD - 2');
 
 
 epsilon = svtol(best_C);

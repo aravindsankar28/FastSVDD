@@ -1,0 +1,60 @@
+SVDD - class 1 as target class 
+
+Averaged over 10 runs with different training data points. (N = 25)
+TAE = 0.0224 
+Avg val error = 0.0533333 
+Avg test error = 0.0126316 
+
+best_C =
+
+    0.4000
+
+
+best_g =
+
+   9.7656e-04
+   
+Confusion matrix for one random run :
+
+Train confusion matrix
+C_train =
+
+     0     0
+     3    22
+
+Train accuracy 0.88  
+Validation confusion matrix
+C_val =
+
+    20     0
+     0    10
+
+Val accuracy 1  
+Test confusion matrix
+C_test =
+
+    80     0
+     1    14
+
+Test accuracy 0.989474  
+
+SVDD -  class 2 as target class
+TAE = 0.0632 
+Avg val error = 0.0433333 
+Avg test error = 0.0694737 
+
+C = 0.42;
+g = 9.765625e-04;
+
+
+SVDD - class 3 as target class
+TAE = 0.0584 
+Avg val error = 0.09 
+Avg test error = 0.0484211
+C = 0.3;
+g =    0.001953125000000
+
+
+
+
+
