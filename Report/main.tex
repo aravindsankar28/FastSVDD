@@ -7,6 +7,7 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
+\floatplacement{figure}{H}
 %\documentstyle[nips13submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -109,7 +110,7 @@ We also compute $||a_\phi||$ as it will be used later,
 where $K$ is the kernel gram matrix. \\[10pt]
 
 
-Let's denote the soft minimal hypersphere (constructed by SVDD over the training points) as $B_S$. We assume the use of a normalized kernel function so that $K(x,x) = 1$. So, all points $\phi(x)$ lie on a unit hypersphere (centered at origin $O_\phi$) in the kernel feature space, denoted by $B_\phi$. This leads to interesting geometrical properties in the kernel feature space. One main property is mentioned below : \\[10pt]
+Let's denote the soft minimal hypersphere (constructed by SVDD over the training points) as $B_S$. We assume the use of a gaussian kernel function (can  be extended for any normalized kernel also)so that $K(x,x) = 1$. So, all points $\phi(x)$ lie on a unit hypersphere (centered at origin $O_\phi$) in the kernel feature space, denoted by $B_\phi$. This leads to interesting geometrical properties in the kernel feature space. One main property is mentioned below : \\[10pt]
 
 \textbf{Property :} The center $a_\phi$ of the SVDD hypersphere $B_S$ must lie inside the unit hypersphere $B_{\phi}$. \\[10pt]
 
@@ -180,7 +181,7 @@ Though the above method will converge to the optimal value of $\hat{x}$ (in gene
 
 In this technique, some simple properties of kernel functions are used to arrive at a closed form expression for $\hat{x}$.
 \[ \hat{x} = \frac{\sum\limits_{i=1}^N \sum\limits_{j=1}^N \alpha_i \alpha_j K(x_i,x_j) x_i}{\sum\limits_{i=1}^N \sum\limits_{j=1}^N \alpha_i \alpha_j K(x_i,x_j)} \]
-We can clearly see that the problems faced by the fixed point iteration method have been eliminated here.
+We can clearly see that the problems faced by the fixed point iteration method have been eliminated here.	
 
 \subsubsection{Discriminant function}
 Finally, the discriminant function $g(x)$ is given by 
@@ -194,23 +195,49 @@ g(x) &= || \phi(x) - a_\phi||^2 - R^2 = ||\phi(x) - \frac{\phi(\hat{x})}{\gamma}
 \end{equation}
 Thus, we can see that the $g(x)$ has only one kernel function term, which makes the prediction time complexity a constant.
 
-\section{Datasets to be used}
-
-\begin{enumerate}
-\item \textbf{Fisher Iris Dataset :} \footnote{https://archive.ics.uci.edu/ml/datasets/Iris} - A well known pattern recognition data set containing 3 classes of 50 instances each. There is one linearly separable class while the other 2 overlap.
-
-\item \textbf{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. 
-
-\item \textbf{Overlapping classes dataset :} This is the same dataset that was used in our assignments. We plan to use this for visualization and interpreting since it is 2 dimensional.
-\end{enumerate}
+\section{Experiments}
+In this section, we describe the experiments that we've performed to compare the performance of F-SVDD with C-SVDD. Specifically, we compare F-SVDD - 1 (direct preimage finding method), F-SVDD - 2 (fixed point iteration method) and C-SVDD for the performance in terms of generalization performance (accuracy) and classification speed (training and testing). In addition to this, we also compare the generalization performance against a non-kernel method which is that of a Multi-Layer Feed Forward Neural Network (MLFFNN) [3]. MATLAB was used to implement all of the three SVDD algorithms, specifically using the optimization toolbox. MLFFNN was implemented using the deafult MATLAB toolbox. 
 
 
-\section{Algorithms to be implemented}
+We use 2 real world datasets, and one synthetic dataset (from our assignment) for our evaluation. We also use another synthetic dataset to illustrate the differences between F-SVDD and C-SVDD.
 
-The F-SVDD algorithm will be implemented using both the fixed point iteration method (F-SVDD-1) and the direct preimage finding method. These results will be compared with the existing method of C-SVDD. 
-\section{Testing against Non kernel method}
-The non-kernel method that will be used here, is the MLFFNN back propagation neural network [3]. This comparison with MLFFNN is mainly to test the generalization ability of the proposed model F-SVDD.
+The metric used for evaluating the generalization performance is  TAER (Total Average Error Rate) given by :
 
+\[ \texttt{TAER} = \frac{\texttt{Number of misclassified points}}{\texttt{Total number of points}} \]
+
+In the following subsections, we analyze the results obtained on each of the three datasets.
+
+
+\subsection{Iris Dataset :} \footnote{https://archive.ics.uci.edu/ml/datasets/Iris}
+This is a well known pattern recognition data set containing 3 classes of 50 instances each. This dataset is 4 dimensional with one linearly separable class while the other 2 overlap. Class 1 can be separated well from the other 2 classes. The dataset has 150 points in total, containing 50 points in each class.
+The scatter plot of the dataset is shown below illustrates this well.
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_1}
+\caption{Scatter plot w.r.t Sepal width and length} 
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_2}
+\caption{Scatter plot w.r.t Petal width and length}  
+\end{subfigure}
+\caption{Scatter plot of the Fisher Iris dataset}
+\end{figure}
+
+For the task of Novelty detection , we performed 3 sets of experiments considering each of the three classes as the target class and the rest of the points as outliers. For the purpose of discussion, let's choose class 1 as the target class. We choose 25 points of class 1 to train, and divide the rest into validation and test sets. The parameters $C$ and $\sigma$ were found by performing 10-fold cross validation, and the values of TAER are the average values obtained over 10 random samples of training data. The best values of $C$ and $\sigma$ obtained were $C = 0.4$ and $\sigma = 22.3$. These values were obtained by performing cross validation for the C-SVDD algorithm. For maintaining fairness of results, the same values of $C$ and $\sigma$ were used for the F-SVDD algorithms also.
+
+\subsection{Overlapping classes dataset :} This is the same dataset that was used in our assignments. We use this for visualization and interpreting since it is 2 dimensional. In this dataset, we have 4 classes which are overlapping. The scatter plot of the dataset is shown below :
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/data}
+\end{figure}
+
+
+\subsection{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. 
 
 
 %% \subsection{Double-blind reviewing}
@@ -274,19 +301,6 @@ The non-kernel method that will be used here, is the MLFFNN back propagation neu
 %% \end{verbatim}
 
 
-%
-%\begin{figure}
-%\begin{subfigure}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_1}
-% 
-%\end{subfigure}%
-%\begin{subfigure}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_2}
-%  
-%\end{subfigure}
-%\end{figure}
 
 
 %\begin{table}[t]
