@@ -3,6 +3,10 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
 %\documentstyle[nips13submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -114,9 +118,10 @@ This property shows that the exact preimage of $a_\phi$ in the x-space does not 
 
 
 \subsection{Fast SVDD}
-The main objective of F-SVDD is to improve classification speed by reducing the number of computations at prediction time. By the above property, the preimage of the center $a_\phi$ does not exist. This algorithm  first defines the agent of the center.
+The main objective of F-SVDD is to improve classification speed by reducing the number of computations at prediction time. By the above property, the preimage of the center $a_\phi$ does not exist. This algorithm  
+first defines the agent of the center.
 
-\subsubsection*{Agent of the center}
+\subsubsection{Agent of the center}
 
 Let's denote the agent of the center $\Psi_a$ (in the kernel feature space). We want $\Psi_a$ to have a pre-image $\hat{x}$ in the x-space.  This directly implies that $\Psi_a$ should lie on the unit hypersphere  $B_{\phi}$ centered at Origin in the kernel feature space. This gives us  
 
@@ -144,30 +149,40 @@ This shows us that if we are able to obtain the preimage of the agent, the compu
 
 
 
-\subsection*{Preimage of the agent}. 
-\begin{itemize}
+\subsubsection{Preimage of the agent :}
 
-\item This is found by solving the problem :
+Formally, we define the preimage problem as, given a feature vector $\psi$ in the kernel feature space, find $\hat{x} \in \mathbf{R}^d $ (x-space) such that $\psi = \phi(x)$.
+The preimage $\hat{x}$ is found by solving the problem :
+
 \[ \hat{x} = \min_{\hat{x}} ||\Psi_a - \phi(\hat{x}) ||^2   \]
 
-\item It can shown that solving this problem is equivalent to finding the approximate preimage of $a_\phi$, i.e.
+It can shown that solving this problem is equivalent to finding the approximate preimage of $a_\phi$, i.e.
 
 \[ \min \rho = ||a_\phi - \phi(\hat{x}) ||^2 \]
 
-\item On setting the derivative of the objective function ($\rho$) to 0, we get 
+
+To minimize $\rho$, we set the derivative of the objective function ($\rho$) to 0 and we obtain : 
 
 \[ \hat{x} = \frac{\sum\limits_{i=1}^N \alpha_i K(\hat{x},x_i)x_i}{\sum\limits_{i=1}^N K(\hat{x},x_i)} \]
 
-\item Fixed point iteration is an existing technique which can be used here to solve for $\hat{x}$. This method faces the problems of local minima and multiple initial guesses for $\hat{x}$.
-\end{itemize}
+We see that $\hat{x}$ appears on both sides of the above equation. One of the ways to solve such an equation is shown below :
+\subsubsection*{Fixed point iteration}
 
-Next, a direct non-iterative preimage finding method is proposed.
-\begin{itemize}
-\item In this technique, some simple properties of kernel functions are used to arrive at a closed form expression for $\hat{x}$.
+Fixed point iteration is an existing technique for computing fixed points of iterated functions.
+It can be used here to solve for $\hat{x}$. Initially, $\hat{x}$ is set to a random value $x_0$ and then an iterative procedure is followed to get the final fixed value of $\hat{x}$. The equation below shows the procedure :
+
+\[ \hat{x}_{t+1} = \frac{\sum\limits_{i=1}^N  \alpha_i  K(\hat{x}_t,x_i) x_i}{\sum\limits_{i=1}^N  \alpha_i K(\hat{x}_t,x_i)} \]
+
+Though the above method will converge to the optimal value of $\hat{x}$ (in general), it faces the problems of local minima and it also requires multiple initial guesses for $\hat{x}$ which leads to an increase in computation time. In order to solve these issues, the authors have proposed a direct pre-image finding method, which is given below :
+
+
+\subsubsection*{Direct Method} 
+
+In this technique, some simple properties of kernel functions are used to arrive at a closed form expression for $\hat{x}$.
 \[ \hat{x} = \frac{\sum\limits_{i=1}^N \sum\limits_{j=1}^N \alpha_i \alpha_j K(x_i,x_j) x_i}{\sum\limits_{i=1}^N \sum\limits_{j=1}^N \alpha_i \alpha_j K(x_i,x_j)} \]
-\item From the above expression, we obtain a closed form expression for $\hat{x}$ which avoids the problems faced by the fixed point iteration method.
-\end{itemize}
+We can clearly see that the problems faced by the fixed point iteration method have been eliminated here.
 
+\subsubsection{Discriminant function}
 Finally, the discriminant function $g(x)$ is given by 
 
 \begin{equation}
@@ -259,13 +274,18 @@ The non-kernel method that will be used here, is the MLFFNN back propagation neu
 %% \end{verbatim}
 
 
-
-%\begin{figure}[h]
-%\begin{center}
-%%\framebox[4.0in]{$\;$}
-%\fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-%\end{center}
-%\caption{Sample figure caption.}
+%
+%\begin{figure}
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_1}
+% 
+%\end{subfigure}%
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_2}
+%  
+%\end{subfigure}
 %\end{figure}
 
 
