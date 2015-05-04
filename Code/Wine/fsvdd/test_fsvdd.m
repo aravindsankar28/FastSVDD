@@ -11,26 +11,26 @@ best_g =0;
 % Fixing the values of C and gamma 
 
 %for log2g = 2:1:2
-for log2g = -11:0.2:-10
+for log2g = -16:0.3:-6
     K = computeKgm(train,ker,2^log2g);    
     %for C = 0.038:1:0.038
-    for C = 0.3:0.03:0.4
+    for C = 0.35:0.03:0.35
     [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(train,K,C); 
     [pred_val] = fsvdd_predict(val,ker,c_prime,2^log2g,gamma_f,x_hat);
-    ac = sum(target_val == pred_val)/size(target_val,1);
-    ac
-    if (ac >= bestcv),
-          bestcv = ac; best_C = C; best_g = 2^log2g; 
+    [pred_train] = fsvdd_predict(train,ker,c_prime,2^log2g,gamma_f,x_hat);
+    ac_val = sum(target_val == pred_val)/size(target_val,1);
+    ac_tr = sum(target_train == pred_train)/size(target_train,1);
+    
+    if (ac_val > bestcv),
+          bestcv = ac_val ; best_C = C; best_g = 2^log2g; 
     end
-    fprintf('C=%g log2g=%g acc=%g (best C=%g, g=%g, acc=%g) \n', C, log2g, ac, best_C, best_g, bestcv);
+    fprintf('C=%g log2g=%g acc=%g (best C=%g, g=%g, acc=%g) \n', C, log2g, ac_tr, best_C, best_g, bestcv);
     end
 end
 
-
+bestcv
 K = computeKgm(train,ker,best_g);
 [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(train,K,best_C); 
-
-
 
 
 

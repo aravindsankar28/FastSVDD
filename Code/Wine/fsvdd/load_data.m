@@ -38,15 +38,15 @@ class3_test = class3_rest(~class3_val_ind,:);
 %load('data.mat');
 
 % Creating train, val and test - for target class as class 1 
-
-train = class1_train;
-target_train = ones(length(class1_train),1);
-
-val = [class1_val; class2_val ; class3_val;];
-target_val = [ones(size(class1_val,1),1); ones(size(class2_val,1),1)*(-1); ones(size(class3_val,1),1)*(-1);];
-
-test = [class1_test; class2_train; class2_test ; class3_train; class3_test; ];
-target_test = [ones(size(class1_test,1),1); ones(size(class2_train,1),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_train),1)*(-1); ones(size(class3_test,1),1)*(-1);];
+% 
+% train = class1_train;
+% target_train = ones(length(class1_train),1);
+% 
+% val = [class1_val; class2_val ; class3_val;];
+% target_val = [ones(size(class1_val,1),1); ones(size(class2_val,1),1)*(-1); ones(size(class3_val,1),1)*(-1);];
+% 
+% test = [class1_test; class2_train; class2_test ; class3_train; class3_test; ];
+% target_test = [ones(size(class1_test,1),1); ones(size(class2_train,1),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_train),1)*(-1); ones(size(class3_test,1),1)*(-1);];
 
 % target class - 2
 % 
@@ -58,15 +58,32 @@ target_test = [ones(size(class1_test,1),1); ones(size(class2_train,1),1)*(-1); o
 % 
 % test = [class1_train; class1_test; class2_test ; class3_train; class3_test; ];
 % target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1);  ones(length(class2_test),1); ones(length(class3_train),1)*(-1); ones(size(class3_test,1),1)*(-1);];
-
+% 
 
 % target class - 3
 
-% train = class3_train;
-% target_train = ones(length(class3_train),1);
-% 
-% val = [class1_val; class2_val ; class3_val;];
-% target_val = [ones(size(class1_val,1),1)*(-1); ones(size(class2_val,1),1)*(-1); ones(size(class3_val,1),1);];
-% 
-% test = [class1_train ; class1_test; class2_train; class2_test ;class3_test; ];
-% target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1); ones(size(class2_train,1),1)*(-1); ones(length(class2_test),1)*(-1);  ones(size(class3_test,1),1);];
+train = class3_train;
+target_train = ones(length(class3_train),1);
+
+val = [class1_val; class2_val ; class3_val;];
+target_val = [ones(size(class1_val,1),1)*(-1); ones(size(class2_val,1),1)*(-1); ones(size(class3_val,1),1);];
+
+test = [class1_train ; class1_test; class2_train; class2_test ;class3_test; ];
+target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1); ones(size(class2_train,1),1)*(-1); ones(length(class2_test),1)*(-1);  ones(size(class3_test,1),1);];
+
+
+min_coord = zeros(size(train,2),1);
+max_coord = zeros(size(train,2),1);	
+
+for i=1:size(train,2)
+    min_val = min(val(:,i));
+    max_val = max(val(:,i));
+    
+    min_coord(i) = min_val;
+    max_coord(i) = max_val;
+    
+    train(:,i) = (train(:,i)-min_val)/(max_val-min_val);
+    val(:,i) = (val(:,i)-min_val)/(max_val-min_val);
+    test(:,i) = (test(:,i)-min_val)/(max_val-min_val);
+end
+

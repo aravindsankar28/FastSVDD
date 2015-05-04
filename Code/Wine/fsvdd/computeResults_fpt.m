@@ -1,6 +1,7 @@
-C = 0.3;
-g = 1.629394531250000e-6;
-
+C = 0.35;
+%g = 2.629394531250000e-6;
+%g =1.5259e-05;
+ g = 0.0052;
 ker = 'rbf';
 
 avg_err_rate = 0;
@@ -8,7 +9,7 @@ avg_train_err = 0;
 avg_val_err = 0;
 avg_test_err = 0;
 
-for i = 1:10
+for i = 1:20
     
 load_data;
 K = computeKgm(train,ker,g);
@@ -40,9 +41,9 @@ avg_err_rate = avg_err_rate + x/125;
 end
 
 
-fprintf('TAE = %g \n',avg_err_rate/10);
+fprintf('TAE = %g \n',avg_err_rate/20);
 
-fprintf('Avg val error = %g \n',avg_val_err/10);
+fprintf('Avg val error = %g \n',avg_val_err/20);
 
-fprintf('Avg test error = %g \n',avg_test_err/10);
+fprintf('Avg test error = %g \n',avg_test_err/20);
 

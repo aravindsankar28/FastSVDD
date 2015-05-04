@@ -69,7 +69,8 @@ function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
     svi = find( alpha > epsilon);
     nsv = length(svi);
     fprintf('Support Vectors : %d (%3.1f%%)\n',nsv,100*nsv/n);
-    alpha(svi)
+%    alpha(svi)
+size(svi)
     svii = find( alpha > epsilon & alpha < (C - epsilon));
 %       if length(svii) > 0
 %         b0 =  (1/length(svii))*sum(Y(svii) - H(svii,svi)*alpha(svi).*Y(svii));

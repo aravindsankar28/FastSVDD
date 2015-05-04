@@ -1,0 +1,32 @@
+SVDD - class 1
+
+C = 0.35
+g = 0.0052
+TAE = 0.0464 
+Avg val error = 0.0722222 
+Avg test error = 0.0245192 
+
+older one.
+C = 0.3;
+g = 2.629394531250000e-6;
+TAE = 0.1184 
+Avg val error = 0.0986667 
+Avg test error = 0.0996154 
+
+
+SVDD - class 2
+
+TAE = 0.2372 
+Avg val error = 0.196667 
+Avg test error = 0.212245 
+
+C = 0.25
+g = 0.00078
+
+SVDD - class 3
+
+C = 0.35
+g = 0.0052
+TAE = 0.0424 
+Avg val error = 0.0577778 
+Avg test error = 0.0247706 

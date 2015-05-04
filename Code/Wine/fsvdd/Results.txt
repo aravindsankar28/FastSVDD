@@ -1,0 +1,37 @@
+FSVDD - direct - class 1
+C = 0.35;
+g = 0.0052;
+
+TAE = 0.05536 
+Avg val error = 0.0542222 
+Avg test error = 0.0430769 
+
+FSVDD - fpt - class 1
+
+
+TAE = 0.0632 
+Avg val error = 0.0477778 
+Avg test error = 0.0552885 
+
+
+FSVDD - direct - classs 2
+TAE = 0.28896 
+Avg val error = 0.233333 
+Avg test error = 0.261429 
+
+fpt - class 2
+
+TAE = 0.3232 
+Avg val error = 0.22 
+Avg test error = 0.311224 
+
+fsvdd - direct - class 3
+TAE = 0.04816 
+Avg val error = 0.0497778 
+Avg test error = 0.0346789 
+
+fpt - class 3
+
+TAE = 0.0548 
+Avg val error = 0.0566667 
+Avg test error = 0.0394495 

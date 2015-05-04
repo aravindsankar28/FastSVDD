@@ -11,7 +11,7 @@ best_g =0;
 % Fixing the values of C and gamma 
 
 %for log2g = 2:1:2
-for log2g = -10:0.2:-10
+for log2g = -16:0.4:-5
 %for log2g = -9:0.2:-5
     K = computeKgm(train,ker,2^log2g);    
     %for C = 0.038:1:0.038
@@ -19,10 +19,12 @@ for log2g = -10:0.2:-10
     %for C = 0.4:0.03:0.8
     [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(train,K,C,2^log2g); 
     [pred_val] = fsvdd_predict(val,ker,c_prime,2^log2g,gamma_f,x_hat);
+    [pred_train] = fsvdd_predict(train,ker,c_prime,2^log2g,gamma_f,x_hat);
     ac = sum(target_val == pred_val)/size(target_val,1);
+    ac_tr = sum(target_train == pred_train)/size(target_train,1);
     ac
-    if (ac >= bestcv),
-          bestcv = ac; best_C = C; best_g = 2^log2g; 
+    if (ac_tr > bestcv),
+          bestcv = ac_tr; best_C = C; best_g = 2^log2g; 
     end
     fprintf('C=%g log2g=%g acc=%g (best C=%g, g=%g, acc=%g) \n', C, log2g, ac, best_C, best_g, bestcv);
     end

@@ -10,10 +10,10 @@ best_C =0;
 best_g =0;
 
 %figure, imshow(mat2gray(K));
-for log2g = -17:0.2:-9
+for log2g = -11:0.2:-6
 %for log2g = -16.5:1:-16.5
     K = computeKgm(train,ker,2^log2g);    
-    for C = 0.1:0.05:8
+    for C = 0.3:0.05:0.5
     %for C = 0.008:0.004:0.06
     [svi, alpha,c] = svdd_train(train,K,ker,C,2^log2g); 
     
@@ -24,13 +24,13 @@ for log2g = -17:0.2:-9
     ac_val = sum(target_val == pred_val)/size(target_val,1);
     
     ac = ac_val + ac_tr;
-    if (ac_val > bestcv_val & ac_tr> bestcv_tr),
+    if (ac_val > bestcv_val)
+    %if (ac_val > bestcv_val & ac_tr> bestcv_tr),
           bestcv_tr = ac_tr; bestcv_val = ac_val; best_C = C; best_g = 2^log2g; 
     end
     fprintf('C=%g log2g=%g acc=%g (best C=%g, g=%g, acc=%g) \n', C, log2g, ac, best_C, best_g, bestcv_val);
     end
 end
-
 
 K = computeKgm(train,ker,best_g);
 [svi, alpha,c] = svdd_train(train,K,ker,best_C,best_g);
