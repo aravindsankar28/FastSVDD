@@ -1,4 +1,41 @@
-SVDD
+SVDD class 1
+
+Training time - 0.249602
+Testing time - 0.686404 
+Train confusion matrix
+C_train =
+
+     0     0
+    31   219
+
+Train accuracy 0.876  
+Validation confusion matrix
+C_val =
+
+   407    43
+    24   126
+
+Val accuracy 0.888333  
+Test confusion matrix
+C_test =
+
+   255    45
+    14    86
+
+Test accuracy 0.8525  
+
+best_g =
+
+    4.4000
+
+
+best_C =
+
+    0.0340
+
+
+
+SVDD class 2
 Training time - 0.343202
 Testing time - 0.546003 
 Train confusion matrix
@@ -22,4 +59,72 @@ C_test =
     11    89
 
 Test accuracy 0.8475
+
+C - 0.028
+g - 4.4
+
+Class 3 results :
+
+g = 4.4
+C - 0.022
+Training time - 0.358802
+Testing time - 0.842405 
+
+
+Train confusion matrix
+C_train =
+
+     0     0
+    47   203
+
+Train accuracy 0.812  
+Validation confusion matrix
+C_val =
+
+   426    24
+    25   125
+
+Val accuracy 0.918333  
+Test confusion matrix
+C_test =
+
+   281    19
+    16    84
+
+Test accuracy 0.9125  
+c - 0.022
+g - 4.4
+Class 4 results :
+
+Training time - 0.421203
+Testing time - 0.468003 
+Train confusion matrix
+C_train =
+
+     0     0
+    26   224
+
+Train accuracy 0.896  
+Validation confusion matrix
+C_val =
+
+   434    16
+    12   138
+
+Val accuracy 0.953333  
+Test confusion matrix
+C_test =
+
+   289    11
+     9    91
+
+Test accuracy 0.95 
+best_g =
+
+    4.4000
+
+
+best_C =
+
+    0.0400
 

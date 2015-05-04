@@ -13,7 +13,7 @@ best_g =0;
 %for log2g = 2:1:2
 for g = 4.4:1:4.4
     K = computeKgm(train,ker,g);    
-    for C = 0.036:1:0.036
+    for C = 0.04:1:0.04
     %for C = 0.03:0.001:0.05
     
     %for C = 0.008:0.004:0.04
@@ -97,7 +97,7 @@ a = xlabel('$x_1$');
 b = ylabel('$x_2$');
 set(a,'Interpreter','latex');
 set(b,'Interpreter','latex');
-title('Decision region plot showing boundary between normal and abnormal classes for FSVDD - 1');
+title('Decision region plot showing boundary between normal and abnormal classes for FSVDD - 2');
 
 
 epsilon = svtol(best_C);
@@ -110,6 +110,9 @@ plot(train_unscaled(svii,1),train_unscaled(svii,2),'k.');
 svi_bdd = find(alpha > best_C-epsilon & alpha < best_C+epsilon);
 plot(train_unscaled(svi_bdd,1),train_unscaled(svi_bdd,2),'g.');
 hold on;
-plot(x_hat(1),x_hat(2),'r.');
-legend('Non SVs','Unbounded SVs','Bounded SVs','Agent of center');
+plot(x_hat(1)*(max_coord(1)-min_coord(1)) + min_coord(1),x_hat(2)*(max_coord(2)-min_coord(2)) + min_coord(2),'k*');
+hold on;
+plot(train_rest(:,1),train_rest(:,2),'r.');
+legend('Non SVs','Unbounded SVs','Bounded SVs','Agent of center','Remaining points');
+
 %svi_bdd

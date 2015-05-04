@@ -16,7 +16,7 @@ for g = 4.4:0.4:4.4
     %for C = 0.036:1:0.036
     %for C = 0.022:1:0.022
     
-    for C = 0.02:0.002:0.04
+    for C = 0.022:0.002:0.04
     [svi, alpha,c] = svdd_train(train,K,ker,C,g); 
     [pred_val] = svdd_predict(train,val,ker,alpha,svi,c,g);
     ac = sum(target_val == pred_val)/size(target_val,1);
@@ -107,5 +107,6 @@ plot(train_unscaled(svii,1),train_unscaled(svii,2),'k.');
 svi_bdd = find(alpha > best_C-epsilon & alpha < best_C+epsilon);
 plot(train_unscaled(svi_bdd,1),train_unscaled(svi_bdd,2),'g.');
 hold on;
-legend('Non SVs','Unbounded SVs','Bounded SVs');
+plot(train_rest(:,1),train_rest(:,2),'r.');
+legend('Non SVs','Unbounded SVs','Bounded SVs','Remaining points');
 %svi_bdd

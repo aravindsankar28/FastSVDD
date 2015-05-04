@@ -24,8 +24,10 @@ target_val = [ones(length(class1_val),1); ones(length(class2_val),1)*(-1); ones(
 test = [class1_test;    class2_test ; class3_test;  class4_test ];
 target_test = [ones(length(class1_test),1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1)*(-1);ones(length(class4_test),1)*(-1);];
 
-
+train_rest = [class2_train; class3_train; class4_train];
 % Class 2 as target class.
+
+% 
 % train = class2_train;
 % target_train = ones(length(class2_train),1);
 % 
@@ -35,7 +37,7 @@ target_test = [ones(length(class1_test),1); ones(length(class2_test),1)*(-1); on
 % 
 % test = [class1_test;    class2_test ; class3_test;  class4_test ];
 % target_test = [ones(length(class1_test),1)*(-1); ones(length(class2_test),1); ones(length(class3_test),1)*(-1);ones(length(class4_test),1)*(-1);];
-
+% train_rest = [class1_train; class3_train; class4_train];
 
 % Class 3 as target class.
 % train = class3_train;
@@ -47,6 +49,7 @@ target_test = [ones(length(class1_test),1); ones(length(class2_test),1)*(-1); on
 % 
 % test = [class1_test;    class2_test ; class3_test;  class4_test ];
 % target_test = [ones(length(class1_test),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1);ones(length(class4_test),1)*(-1);];
+% train_rest = [class1_train; class2_train; class4_train];
 
 % Class 4 as target class.
 % train = class4_train;
@@ -59,7 +62,7 @@ target_test = [ones(length(class1_test),1); ones(length(class2_test),1)*(-1); on
 % test = [class1_test;    class2_test ; class3_test;  class4_test ];
 % target_test = [ones(length(class1_test),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1)*(-1); ones(length(class4_test),1);];
 % 
-% 
+% train_rest = [class1_train; class2_train; class3_train];
 train_unscaled = train;
 val_unscaled = val;
 test_unscaled = test;

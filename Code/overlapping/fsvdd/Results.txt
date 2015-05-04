@@ -1,0 +1,237 @@
+Class 1 - fsvdd direct 
+Training time - 0.374402
+Testing time - 0.0312002 
+Train confusion matrix
+C_train =
+
+     0     0
+    37   213
+
+Train accuracy 0.852  
+Validation confusion matrix
+C_val =
+
+   375    75
+    30   120
+
+Val accuracy 0.825  
+Test confusion matrix
+C_test =
+
+   240    60
+    17    83
+
+Test accuracy 0.8075  
+
+best_C =
+
+    0.0340
+
+
+best_g =
+
+    4.4000
+
+Class 1 - fsvdd fpt.
+
+Training time - 1.07641
+Testing time - 0.0156001
+Train confusion matrix
+C_train =
+
+     0     0
+    34   216
+
+Train accuracy 0.864  
+Validation confusion matrix
+C_val =
+
+   377    73
+    31   119
+
+Val accuracy 0.826667  
+Test confusion matrix
+C_test =
+
+   241    59
+    18    82
+
+Test accuracy 0.8075  
+
+best_C =
+
+    0.0340
+
+
+best_g =
+
+    4.4000
+
+Class 2- fsvdd direct
+
+Training time - 0.358802
+Testing time - 0.0312002 
+Train confusion matrix
+C_train =
+
+     0     0
+    41   209
+C - 0.028
+g = 4.4
+Train accuracy 0.836  
+Validation confusion matrix
+C_val =
+
+   432    18
+    34   116
+
+Val accuracy 0.913333  
+Test confusion matrix
+C_test =
+
+   293     7
+    25    75
+
+Test accuracy 0.92  
+
+CLass 2 - fsvdd fpt.
+
+Train accuracy 0.836  
+Validation confusion matrix
+C_val =
+
+   435    15
+    34   116
+
+Val accuracy 0.918333  
+Test confusion matrix
+C_test =
+
+   294     6
+    26    74
+
+Test accuracy 0.92 
+
+class 3 fsvdd direct :
+Training time - 0.405603
+Testing time - 0.0312002 
+Train confusion matrix
+C_train =
+
+     0     0
+    52   198
+
+Train accuracy 0.792  
+Validation confusion matrix
+C_val =
+
+   414    36
+    30   120
+
+Val accuracy 0.89  
+Test confusion matrix
+C_test =
+
+   271    29
+    19    81
+
+Test accuracy 0.88  
+
+class 3 fsvdd fpt - 
+
+Training time - 1.01401
+Testing time - 0.0312002
+Train confusion matrix
+C_train =
+
+     0     0
+    52   198
+
+Train accuracy 0.792  
+Validation confusion matrix
+C_val =
+
+   414    36
+    30   120
+
+Val accuracy 0.89  
+Test confusion matrix
+C_test =
+
+   271    29
+    19    81
+
+Test accuracy 0.88  
+
+
+Class 4 - fsvdd direct 
+
+Training time - 0.358802
+Testing time - 0 
+Train confusion matrix
+C_train =
+
+     0     0
+    38   212
+
+Train accuracy 0.848  
+Validation confusion matrix
+C_val =
+
+   397    53
+    20   130
+
+Val accuracy 0.878333  
+Test confusion matrix
+C_test =
+
+   259    41
+    17    83
+
+Test accuracy 0.855  
+
+best_C =
+
+    0.0400
+
+
+best_g =
+
+    4.4000
+
+class 4 fsvdd - fpt.
+
+Training time - 1.66921
+Testing time - 0.0156001
+Train confusion matrix
+C_train =
+
+     0     0
+    44   206
+
+Train accuracy 0.824  
+Validation confusion matrix
+C_val =
+
+   394    56
+    19   131
+
+Val accuracy 0.875  
+Test confusion matrix
+C_test =
+
+   260    40
+    21    79
+
+Test accuracy 0.8475  
+
+best_C =
+
+    0.0400
+
+
+best_g =
+
+    4.4000
+
+
