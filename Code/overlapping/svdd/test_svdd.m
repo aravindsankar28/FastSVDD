@@ -11,7 +11,7 @@ best_g =0;
 %figure, imshow(mat2gray(K));
 %for log2g = 1:1:1
 %for g = 8:1:8
-for g = 2:0.4:4
+for g = 4.4:0.4:4.4
     K = computeKgm(train,ker,g);    
     %for C = 0.036:1:0.036
     %for C = 0.022:1:0.022

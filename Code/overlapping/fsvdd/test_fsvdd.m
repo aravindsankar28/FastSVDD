@@ -90,6 +90,7 @@ colormap(cmap);
 
 plot(train_unscaled(:,1),train_unscaled(:,2),'b.');
 
+
 a = xlabel('$x_1$');
 b = ylabel('$x_2$');
 set(a,'Interpreter','latex');
@@ -109,4 +110,6 @@ plot(train_unscaled(svi_bdd,1),train_unscaled(svi_bdd,2),'g.');
 hold on;
 plot(x_hat(1),x_hat(2),'r.');
 legend('Non SVs','Unbounded SVs','Bounded SVs','Agent of center');
+hold on;
+plot(class2(:,1),class2(:,2),'r.',class3(:,1),class3(:,2),'m.',class4(:,1),class4(:,2),'g.');
 %svi_bdd

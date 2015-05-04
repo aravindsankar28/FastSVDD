@@ -18,6 +18,8 @@ hold on;
 plot(class2_data(:,1),class2_data(:,2),'r.');
 xlabel('x');
 ylabel('y');
+xlim([-1 1.5]);
+ylim([-1 1.5]);
 title('Ellipse shaped 2 class data');
 
 
