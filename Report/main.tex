@@ -208,6 +208,10 @@ All the experiments were performed on a system with Intel 2.3 GHz i5 processor a
 
 In all our experiments (expect overlapping dataset) involving SVDD and associated algorithms, the best values of the parameters $C$ and $\sigma$ were found by performing 10-fold cross validation. These values were obtained by performing cross validation for the C-SVDD algorithm. For maintaining fairness of results, the same values of $C$ and $\sigma$ were used for the F-SVDD algorithms also. For the MLFFNN, we performed cross-validation to estimate the number of nodes in the hidden layer. \\[5pt]
 
+\textbf{(Check this once and decide where to add it )}
+In the paper, it has been mentioned that all of the training points are used as support vectors for C-SVDD, i.e. they do not perform a thresholding on the lagrange multipliers obtained due to precision issues. This could be one of the reasons why the testing times reported for C-SVDD in the paper are quite high in comparison to the F-SVDD method.
+
+
 
 \textbf{Evaluation metric :}
 
@@ -237,7 +241,7 @@ For the task of Novelty detection , we need to define our target and outlier cla
 
 In this case, we are given explicit validation and test datasets. So, we find out the best values of $C$ and $\sigma$ only over the given validation set. The best value of $\sigma$ obtained was 0.3371. Also, the value of $C$ was estimated for each of the 4 experiments and the range of values of $C$ obtained was from 0.02 to 0.04.
 The performance (TAER) obtained for each of the 4 experiments is shown below : \\[5pt]
-\begin{table}[t]
+\begin{table}[H]
 \begin{center}
 \caption{Comparison of Average Error rates on Overlapping classes dataset}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -270,7 +274,7 @@ Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
 
 The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 classes are shown below :
 
-\begin{figure}
+\begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_1}
@@ -285,7 +289,7 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_2}
@@ -301,7 +305,7 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_3}
@@ -317,7 +321,7 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_4}
@@ -335,18 +339,19 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 \begin{enumerate}
 \item We observe that the performance of F-SVDD  (both 1 and 2) is slightly inferior in comparison to that of C-SVDD. C-SVDD outperforms F-SVDD-1 by 3.5 \% on an average. This is because of the nature of the decision surfaces obtained using F-SVDD i.e  spherical in the x-space (will be explained later).
 
-\item FSVDD-1 and FSVDD-2 perform very similarly i most of the cases and the difference in their average error rates is 0.0019 ~ 0.19 \% which is negligible. This is because, the $\hat{x}$ found by Fixed point iteration was very close to the one found by direct method. As the dataset is quite simple, the effect of different starting points did not play a role here.
+\item FSVDD-1 and FSVDD-2 perform very similarly in most of the cases and the difference in their average error rates is 0.0019 ~ 0.19 \% which is negligible. This is because, the $\hat{x}$ found by Fixed point iteration was very close to the one found by direct method. As the dataset is quite simple, the effect of different starting points did not play a role here.
 
 \item The total error rate for class 1 was observed to be more than that of the other classes, for both the algorithms. This is clearly because of the points of this class have more overlap with the other class points. The error rates observed for the other class points were very similar.
-\item The agent of the center $\hat{x}$ found by F-SVDD is also marked in the decision region plot, denoted by a black cross. We see it is located very close to the true center of the data points ( at least in the x-space).
+
+\item The agent of the center $\hat{x}$ found by F-SVDD is also marked in the decision region plot, denoted by a black cross. It is the center of the spherical decision surface that we obtain in the x-space.
 
 \end{enumerate}
 
 
 The running times that were observed for each of the algorithms are shown below :
-\begin{table}[t]
+\begin{table}[H]
 \begin{center}
-\caption{Running time comparison for Overlapping classes dataset}
+\caption{Running time (in seconds) comparison for Overlapping classes dataset}
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \multicolumn{2}{|c|}{FSVDD-2}  \\ \hline
@@ -378,7 +383,7 @@ The scatter plot of the dataset is shown below illustrates the separability when
 
 
 
-\begin{figure}
+\begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\linewidth]{../Code/FisherIris/svdd/iris_1}
@@ -399,7 +404,7 @@ For the task of Novelty detection , we performed 3 sets of experiments consideri
 The performance of the 3 algorithms on this dataset are shown below :
 
 
-\begin{table}[t]
+\begin{table}[H]
 \begin{center}
 \caption{Comparison of Average Error rates on Fisher dataset}
 \begin{tabular}{|c|c|c|c|c|}
@@ -425,7 +430,7 @@ Average TAER &  0.0491 & 0.0646 &  0.0664 &. \\ \hline
 
 The observed running times on this dataset for the different algorithms are shown below :
 
-\begin{table}[t]
+\begin{table}[H]
 \begin{center}
 \caption{Running time comparison for Fisher Iris dataset}
 \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -441,10 +446,64 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 \end{table}
 
 
+\textbf{Observations :}
+\begin{enumerate}
+\item 
+\end{enumerate}
 
 
-\subsection{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. 
 
+
+
+\subsection{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. Among the 13 features, we found that 2 attributes - number 5 (Magnesium)  and number 13 (Proline) had totally different ranges compared to the other attributes. To avoid problems due to this, we normalized the entire dataset using min-max normalization. 
+
+This dataset has 178 points, with 59 instances of class 1, 71 instances of class 2 and 48 instances of class 3.
+As in the previous cases, we perform 3 experiments considering each of the 3 classes as the target class.
+
+
+
+\begin{table}[H]
+\begin{center}
+\caption{Comparison of Average Error rates on Wine Recognition dataset}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Target class & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
+1 ($N_{train} = 29$) & 0.0464   & 0.0554  & 0.0632   &. \\ \hline
+2 ($N_{train} = 35$) &  0.2052  &  0.2426   & 0.2592   &. \\ \hline
+3 ($N_{train} = 24$) & 0.0424   &  0.0482  &  0.0548 &. \\ \hline
+Average TAER &  0.0980 & 0.1154 & 0.1257 &. \\ \hline
+
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\textbf{Observations :}
+\begin{enumerate}
+\item 
+\end{enumerate}
+
+
+\begin{table}[H]
+\begin{center}
+\caption{Running time (in seconds) comparison for Wine recognition dataset}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \multicolumn{2}{|c|}{FSVDD-2}  \\ \hline
+& Training & Testing & Training & Testing & Training & Testing \\ \hline
+1 ($N_{test} =149$)  & 0.0245 & 0.0172 & 0.0254  & 0.0043  & 0.03744 & 0.0015 \\ \hline
+2 ($N_{test} =143$) & 0.02496 & 0.0156 & 0.0281  &  0.0031 & 0.0390 & 0.0031 \\ \hline
+3 ($N_{test} =154$) &  0.0234 & 0.01404 & 0.0249  & 0.0046 & 0.0374 & 0.0046 \\ \hline
+
+\end{tabular} \\[5pt]
+\end{center}
+\end{table}
+
+
+\textbf{Observations :}
+\begin{enumerate}
+\item 
+\end{enumerate}
 
 \section{Comparison and inferences}
 In this section, we explain the difference in decision regions obtained by C-SVDD and F-SVDD. In the conventional SVDD algorithm, the discriminant function $g(x)$ is given by :
@@ -468,7 +527,7 @@ If we use a gaussian kernel this reduces to a very simple form as shown below :
 The equation above represents a circle in the x-space centered at $\hat{x}$. This is the reason why spherical boundaries are observed in the x-space when a gaussian kernel is used. This proves to a limitation in certain cases, where the points of the target class cannot be compactly covered using a spherical decision surface in the x-space. A simple example of such a scenario is shown below :
 
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{../Code/Ellipse/svdd/data}
   \caption{2-Ellipse classes dataset with 2 classes}
@@ -476,7 +535,7 @@ The equation above represents a circle in the x-space centered at $\hat{x}$. Thi
 
 
 
-The above figure shows a synthetically generated dataset (2-Ellipses) with 2 intersection ellipses in 2 dimensions.  Clearly, the usage of a spherical decision surface will not be adequate to the separate the points of the 2 classes. To verify this, we plot the decision surfaces obtained on training C-SVDD and F-SVDD on this 2-Ellipses dataset as shown below :
+The above figure shows a synthetically generated dataset (2-Ellipses) with 2 intersecting ellipses in 2 dimensions.  Clearly, the usage of a spherical decision surface will not be adequate to the separate the points of the 2 classes. To verify this, we plot the decision surfaces obtained on training C-SVDD and F-SVDD on this 2-Ellipses dataset as shown below :
 
 \begin{figure}
 \begin{subfigure}{.5\textwidth}

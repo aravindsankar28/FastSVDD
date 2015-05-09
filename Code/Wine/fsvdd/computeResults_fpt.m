@@ -1,7 +1,10 @@
-C = 0.35;
-%g = 2.629394531250000e-6;
-%g =1.5259e-05;
- g = 0.0052;
+%C = 0.35;
+%g = 0.0052;
+ 
+%  
+C = 0.25;
+%g = 0.00078;
+g = 0.01378;
 ker = 'rbf';
 
 avg_err_rate = 0;
@@ -39,6 +42,22 @@ x = round(CP_v.ErrorRate * CP_v.NumberOfObservations) + round(CP_t.ErrorRate * C
 avg_err_rate = avg_err_rate + x/125;
 
 end
+
+t = cputime;
+for i = 1:10
+    [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(train,K,C,g); 
+end
+e = cputime -t;
+fprintf('Training time - %g \n',e/10);
+
+
+t = cputime;
+for i = 1:10
+    [pred_test] =fsvdd_predict(test,ker,c_prime,g,gamma_f,x_hat);
+end
+e = cputime -t;
+fprintf('Testing time - %g \n',e/10);
+
 
 
 fprintf('TAE = %g \n',avg_err_rate/20);

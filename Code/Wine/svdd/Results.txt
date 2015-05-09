@@ -1,4 +1,6 @@
 SVDD - class 1
+Training time - 0.0245202 
+Testing time - 0.0171601 
 
 C = 0.35
 g = 0.0052
@@ -16,14 +18,22 @@ Avg test error = 0.0996154
 
 SVDD - class 2
 
-TAE = 0.2372 
+Training time - 0.0249602 
+Testing time - 0.0156001 
+
+
+TAE = 0.2052 
 Avg val error = 0.196667 
 Avg test error = 0.212245 
 
 C = 0.25
-g = 0.00078
+g = 0.00078  - old value
+g = 0.01378
 
 SVDD - class 3
+
+Training time - 0.0234001 
+Testing time - 0.0140401 
 
 C = 0.35
 g = 0.0052

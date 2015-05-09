@@ -50,27 +50,27 @@ class3_test = class3_rest(~class3_val_ind,:);
 
 % target class - 2
 % 
-% train = class2_train;
-% target_train = ones(length(class2_train),1);
-% 
-% val = [class1_val; class2_val ; class3_val;];
-% target_val = [ones(size(class1_val,1),1)*(-1); ones(size(class2_val,1),1); ones(size(class3_val,1),1)*(-1);];
-% 
-% test = [class1_train; class1_test; class2_test ; class3_train; class3_test; ];
-% target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1);  ones(length(class2_test),1); ones(length(class3_train),1)*(-1); ones(size(class3_test,1),1)*(-1);];
-% 
-
-% target class - 3
-
-train = class3_train;
-target_train = ones(length(class3_train),1);
+train = class2_train;
+target_train = ones(length(class2_train),1);
 
 val = [class1_val; class2_val ; class3_val;];
-target_val = [ones(size(class1_val,1),1)*(-1); ones(size(class2_val,1),1)*(-1); ones(size(class3_val,1),1);];
+target_val = [ones(size(class1_val,1),1)*(-1); ones(size(class2_val,1),1); ones(size(class3_val,1),1)*(-1);];
 
-test = [class1_train ; class1_test; class2_train; class2_test ;class3_test; ];
-target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1); ones(size(class2_train,1),1)*(-1); ones(length(class2_test),1)*(-1);  ones(size(class3_test,1),1);];
+test = [class1_train; class1_test; class2_test ; class3_train; class3_test; ];
+target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1);  ones(length(class2_test),1); ones(length(class3_train),1)*(-1); ones(size(class3_test,1),1)*(-1);];
 
+
+% target class - 3
+% 
+% train = class3_train;
+% target_train = ones(length(class3_train),1);
+% 
+% val = [class1_val; class2_val ; class3_val;];
+% target_val = [ones(size(class1_val,1),1)*(-1); ones(size(class2_val,1),1)*(-1); ones(size(class3_val,1),1);];
+% 
+% test = [class1_train ; class1_test; class2_train; class2_test ;class3_test; ];
+% target_test = [ones(size(class1_train,1),1)*(-1); ones(size(class1_test,1),1)*(-1); ones(size(class2_train,1),1)*(-1); ones(length(class2_test),1)*(-1);  ones(size(class3_test,1),1);];
+% 
 
 min_coord = zeros(size(train,2),1);
 max_coord = zeros(size(train,2),1);	

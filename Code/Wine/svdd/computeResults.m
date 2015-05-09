@@ -1,9 +1,10 @@
-C = 0.35;
-g = 0.0052;
+% C = 0.35;
+% g = 0.0052;
 
-%g = 0.0078;
-%g = 4.8828e-04;
-%g = 2.629394531250000e-4;
+C = 0.25;
+g = 0.00978;
+
+g = 0.01378;
 % best till now.
 ker = 'rbf';
 
@@ -43,6 +44,23 @@ x = round(CP_v.ErrorRate * CP_v.NumberOfObservations) + round(CP_t.ErrorRate * C
 avg_err_rate = avg_err_rate + x/125;
 
 end
+
+
+t = cputime;
+for i = 1:10
+    [svi, alpha,c] = svdd_train(train,K,ker,C,g);
+end
+e = cputime -t;
+fprintf('Training time - %g \n',e/10);
+
+
+
+t = cputime;
+for i = 1:10
+    [pred_test] =svdd_predict(train,test,ker,alpha,svi,c,g);
+end
+e = cputime -t;
+fprintf('Testing time - %g \n',e/10);
 
 
 
