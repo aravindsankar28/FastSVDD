@@ -38,9 +38,11 @@ fprintf('Training time - %g\n',e);
 [pred_val] = fsvdd_predict(val,ker,c_prime,best_g,gamma_f,x_hat);
 
 t = cputime;
-[pred_test] =fsvdd_predict(test,ker,c_prime,best_g,gamma_f,x_hat);
+for i =1:10
+    [pred_test] =fsvdd_predict(test,ker,c_prime,best_g,gamma_f,x_hat);
+end
 e = cputime-t;
-fprintf('Testing time - %g \n',e);
+fprintf('Testing time - %g \n',e/10);
 
 
 fprintf('Train confusion matrix')

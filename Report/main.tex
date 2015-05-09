@@ -234,7 +234,7 @@ For the task of Novelty detection , we need to define our target and outlier cla
 
 In this case, we are given explicit validation and test datasets. So, we find out the best values of $C$ and $\sigma$ only over the given validation set. The best value of $\sigma$ obtained was 0.3371. Also, the value of $C$ was estimated for each of the 4 experiments and the range of values of $C$ obtained was from 0.02 to 0.04.
 The performance (TAER) obtained for each of the 4 experiments is shown below : \\[5pt]
-
+\begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
@@ -256,9 +256,10 @@ Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
  (N = 250) & Validation &  0.0467 & 0.1217 & 0.1250 & . \\ 
  & Test & 0.0500 &  0.1450 &  0.1525 & . \\ \hline
  
-& Average test error  & . & .& . &. \\ \hline
-\end{tabular} \\[10pt]
+& Average test error  &  0.0992 &  0.1344 & 0.1363 &. \\ \hline
 
+\end{tabular} \\[10pt]
+\end{center}
 
 The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 classes are shown below :
 
@@ -325,10 +326,38 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 
 \textbf{Observations :}
 \begin{enumerate}
-\item 
+\item We observe that the performance of F-SVDD  (both 1 and 2) is slightly inferior in comparison to that of C-SVDD. C-SVDD outperforms F-SVDD-1 by 3.5 \% on an average. This is because of the nature of the decision surfaces obtained using F-SVDD i.e  spherical in the x-space (will be explained later).
+
+\item FSVDD-1 and FSVDD-2 perform very similarly i most of the cases and the difference in their average error rates is 0.0019 ~ 0.19 \% which is negligible. This is because, the $\hat{x}$ found by Fixed point iteration was very close to the one found by direct method. As the dataset is quite simple, the effect of different starting points did not play a role here.
+
+\item The total error rate for class 1 was observed to be more than that of the other classes, for both the algorithms. This is clearly because of the points of this class have more overlap with the other class points. The error rates observed for the other class points were very similar.
+\item The agent of the center $\hat{x}$ found by F-SVDD is also marked in the decision region plot, denoted by a black cross. We see it is located very close to the true center of the data points ( at least in the x-space).
+
 \end{enumerate}
 
 
+The running times that were observed for each of the algorithms are shown below :
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \multicolumn{2}{|c|}{FSVDD-2}  \\ \hline
+& Training & Testing & Training & Testing & Training & Testing \\ \hline
+1 & 0.3351 & 0.6312 & 0.3744  & 0.0187 & 1.0764 & 0.0156 \\ \hline
+2 & 0.3551 & 0.7176 & 0.3588 & 0.0187 & 1.1232 & 0.0094 \\ \hline
+3 & 0.3414 & 0.7722 & 0.3476 & 0.0171 & 1.4881 & 0.0094 \\ \hline
+4 & 0.3120 & 0.7753 & 0.3744 & 0.0187 & 1.4661 &  0.0094 \\ \hline
+
+\end{tabular} \\[5pt]
+\end{center}
+
+\textbf{Observations :}
+\begin{enumerate}
+\item The training time for F-SVDD-1 was found be higher than that of C-SVDD, which is because of the additional computation that is required for the computation of the agent of the center $\hat{x}$. But, we note that the difference in time taken is very less on an average.
+
+\item On the contrary, the F-SVDD-2 takes abound 1.28 seconds on an average for training. This is much higher than the other two algorithms and has a lot more variation in the times for each of the classes. The excess time is due to the fact that the fixed point method requires a lot of iterations to converge.
+
+\end{enumerate}
 
 
 \subsection{Iris Dataset :} \footnote{https://archive.ics.uci.edu/ml/datasets/Iris}

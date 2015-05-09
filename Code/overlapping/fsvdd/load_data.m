@@ -14,17 +14,17 @@ class3_test = load('../../../Data/overlapping/class3_test.txt');
 class4_test = load('../../../Data/overlapping/class4_test.txt');
 
 % Class 1 as target class.
-train = class1_train;
-target_train = ones(length(class1_train),1);
-
-val = [class1_val; class2_val ; class3_val;  class4_val ];
-target_val = [ones(length(class1_val),1); ones(length(class2_val),1)*(-1); ones(length(class3_val),1)*(-1);ones(length(class4_val),1)*(-1);];
-
-
-test = [class1_test;    class2_test ; class3_test;  class4_test ];
-target_test = [ones(length(class1_test),1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1)*(-1);ones(length(class4_test),1)*(-1);];
-
-train_rest = [class2_train; class3_train; class4_train];
+% train = class1_train;
+% target_train = ones(length(class1_train),1);
+% 
+% val = [class1_val; class2_val ; class3_val;  class4_val ];
+% target_val = [ones(length(class1_val),1); ones(length(class2_val),1)*(-1); ones(length(class3_val),1)*(-1);ones(length(class4_val),1)*(-1);];
+% 
+% 
+% test = [class1_test;    class2_test ; class3_test;  class4_test ];
+% target_test = [ones(length(class1_test),1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1)*(-1);ones(length(class4_test),1)*(-1);];
+% 
+% train_rest = [class2_train; class3_train; class4_train];
 
 % Class 2 as target class.
 % train = class2_train;
@@ -51,16 +51,16 @@ train_rest = [class2_train; class3_train; class4_train];
 % train_rest = [class1_train; class2_train; class4_train];
 % 
 % % Class 4 as target class.
-% train = class4_train;
-% target_train = ones(length(class4_train),1);
-% 
-% val = [class1_val; class2_val ; class3_val;  class4_val ];
-% target_val = [ones(length(class1_val),1)*(-1); ones(length(class2_val),1)*(-1); ones(length(class3_val),1)*(-1);ones(length(class4_val),1);];
-% 
-% 
-% test = [class1_test;    class2_test ; class3_test;  class4_test ];
-% target_test = [ones(length(class1_test),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1)*(-1); ones(length(class4_test),1);];
-% train_rest = [class1_train; class2_train; class3_train];
+train = class4_train;
+target_train = ones(length(class4_train),1);
+
+val = [class1_val; class2_val ; class3_val;  class4_val ];
+target_val = [ones(length(class1_val),1)*(-1); ones(length(class2_val),1)*(-1); ones(length(class3_val),1)*(-1);ones(length(class4_val),1);];
+
+
+test = [class1_test;    class2_test ; class3_test;  class4_test ];
+target_test = [ones(length(class1_test),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1)*(-1); ones(length(class4_test),1);];
+train_rest = [class1_train; class2_train; class3_train];
 
 train_unscaled = train;
 val_unscaled = val;

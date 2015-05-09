@@ -13,10 +13,10 @@ best_g =0;
 %for g = 8:1:8
 for g = 4.4:0.4:4.4
     K = computeKgm(train,ker,g);    
-    %for C = 0.036:1:0.036
+    for C = 0.022:1:0.022
     %for C = 0.022:1:0.022
     
-    for C = 0.022:0.002:0.04
+    %for C = 0.022:0.002:0.04
     [svi, alpha,c] = svdd_train(train,K,ker,C,g); 
     [pred_val] = svdd_predict(train,val,ker,alpha,svi,c,g);
     ac = sum(target_val == pred_val)/size(target_val,1);
@@ -30,17 +30,21 @@ end
 
 t = cputime;
 K = computeKgm(train,ker,best_g);
-[svi, alpha,c] = svdd_train(train,K,ker,best_C,best_g);
+for i =1:10
+    [svi, alpha,c] = svdd_train(train,K,ker,best_C,best_g);
+end
 e = cputime-t;
-fprintf('Training time - %g\n',e);
+fprintf('Training time - %g\n',e/10);
 
 [pred_train] = svdd_predict(train,train,ker,alpha,svi,c,best_g);
 [pred_val] = svdd_predict(train,val,ker,alpha,svi,c,best_g);
 
 t = cputime;
-[pred_test] =svdd_predict(train,test,ker,alpha,svi,c,best_g);
+for i = 1:10
+    [pred_test] =svdd_predict(train,test,ker,alpha,svi,c,best_g);
+end
 e = cputime-t;
-fprintf('Testing time - %g \n',e);
+fprintf('Testing time - %g \n',e/10);
 
 
 fprintf('Train confusion matrix')
