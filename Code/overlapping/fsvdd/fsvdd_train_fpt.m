@@ -1,21 +1,25 @@
-function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
-%SVC Support Vector Data Description
+function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(X,K,C,gamma)
+% Fast Support Vector Data Description - fixed point iteration
 %
-%  Usage: [nsv alpha bias] = svdd_train(X,ker,C,gamma)
+%  Usage: [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(X,K,C,gamma)
 %
 %  Note: Targets not required for training purposes.
 %  Parameters: X      - Training inputs
-%              ker    - kernel function
+%              K      - Precomputed kernel gram matrix
 %              gamma  - rbf kernel's param. gamma
 %              C      - upper bound (non-separable case)
-%              nsv    - number of support vectors
+%              svi    - support vectors indices
 %              alpha  - Lagrange Multipliers
-%              b0     - bias term
-%
+%              c_prime- the constant which occurs in the disc. function of
+%              fsvdd
+%              gamma_f- the constant factor used in f-svdd - check
+%              formulation
+%              x_hat  - preimage of the agent of center
+
 %  Author: Aravind Sankar (!)
 
   if (nargin <3 || nargin>4) % check correct number of arguments
-    help svdd_train
+    help fsvdd_train_fpt
   else
 
     fprintf('Support Vector Data Desctiption\n')
@@ -71,19 +75,12 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
     fprintf('Support Vectors : %d (%3.1f%%)\n',nsv,100*nsv/n);
 
     svii = find( alpha > epsilon & alpha < (C - epsilon));
-%       if length(svii) > 0
-%         b0 =  (1/length(svii))*sum(Y(svii) - H(svii,svi)*alpha(svi).*Y(svii));
-%       else 
-%         fprintf('No support vectors on margin - cannot compute bias.\n');
-%       end
-    %end
     
     % Compute radius R and c for use later in prediction.
     
    
     k = svii(1);
-    
-    
+        
     %c =0;
     R2 =1 + alpha'*K*alpha;
 
@@ -101,12 +98,7 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
     
     
     R2 = R2 - avg_val;
-    
-%     for i = 1:length(svi)
-%         index = svi(i);
-%         c = c+ 2*alpha(index)* K(index,k);
-%     end
-    
+      
     %c = 1-R2 + alpha'*K*alpha;
     
     gamma_f = 1/sqrt(alpha'*K*alpha);
@@ -133,6 +125,7 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
     x_hat(1) = rand(1,1);
     x_hat(2) = rand(1,1);
     
+    % iterate till a max of 1000 iterations. fpt method.
     for t = 1:1000
         num = 0;
         den = 0;

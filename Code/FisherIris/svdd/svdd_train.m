@@ -1,16 +1,18 @@
 function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
-%SVC Support Vector Data Description
+%SVDD Support Vector Data Description
 %
-%  Usage: [nsv alpha bias] = svdd_train(X,ker,C,gamma)
+%  Usage: [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
 %
 %  Note: Targets not required for training purposes.
 %  Parameters: X      - Training inputs
-%              ker    - kernel function
-%              gamma  - rbf kernel's param. gamma
-%              C      - upper bound (non-separable case)
-%              nsv    - number of support vectors
-%              alpha  - Lagrange Multipliers
-%              b0     - bias term
+%              ker    - kernel function - use 'rbf'
+%              K      - Precomputed kernel gram matrix
+%              gamma  - rbf kernel's param. gamma - 1/(2*sigma^2)
+%              C      - upper bound - cost parameter
+%              svi    - indices of support vectors
+%              alpha  - set of all Lagrange Multipliers
+%              c      - constant which is a part of the disc. function -
+%              check formulation.
 %
 %  Author: Aravind Sankar (!)
 

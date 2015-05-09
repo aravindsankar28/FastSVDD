@@ -5,7 +5,7 @@ function tol = svtol(C)
 %
 %  Parameters: C      - upper bound 
 %
-%  Author: Steve Gunn (srg@ecs.soton.ac.uk)
+
 
 
   if (nargin ~= 1) % check correct number of arguments

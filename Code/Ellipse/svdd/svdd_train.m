@@ -1,18 +1,21 @@
 function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
-%SVC Support Vector Data Description
+%SVDD Support Vector Data Description
 %
-%  Usage: [nsv alpha bias] = svdd_train(X,ker,C,gamma)
+%  Usage: [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
 %
 %  Note: Targets not required for training purposes.
 %  Parameters: X      - Training inputs
-%              ker    - kernel function
-%              gamma  - rbf kernel's param. gamma
-%              C      - upper bound (non-separable case)
-%              nsv    - number of support vectors
-%              alpha  - Lagrange Multipliers
-%              b0     - bias term
+%              ker    - kernel function - use 'rbf'
+%              K      - Precomputed kernel gram matrix
+%              gamma  - rbf kernel's param. gamma - 1/(2*sigma^2)
+%              C      - upper bound - cost parameter
+%              svi    - indices of support vectors
+%              alpha  - set of all Lagrange Multipliers
+%              c      - constant which is a part of the disc. function -
+%              check formulation.
 %
 %  Author: Aravind Sankar (!)
+
 
   if (nargin <2 || nargin>5) % check correct number of arguments
     help svdd_train
@@ -71,12 +74,6 @@ function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
     fprintf('Support Vectors : %d (%3.1f%%)\n',nsv,100*nsv/n);
 
     svii = find( alpha > epsilon & alpha < (C - epsilon));
-%       if length(svii) > 0
-%         b0 =  (1/length(svii))*sum(Y(svii) - H(svii,svi)*alpha(svi).*Y(svii));
-%       else 
-%         fprintf('No support vectors on margin - cannot compute bias.\n');
-%       end
-    %end
     
     % Compute radius R and c for use later in prediction.
     
@@ -101,11 +98,6 @@ function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
     
     
     R2 = R2 - avg_val;
-    
-%     for i = 1:length(svi)
-%         index = svi(i);
-%         c = c+ 2*alpha(index)* K(index,k);
-%     end
     
     c = 1-R2 + alpha'*K*alpha;
     R2

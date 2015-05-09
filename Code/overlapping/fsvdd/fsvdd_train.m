@@ -1,21 +1,25 @@
 function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C)
-%SVC Support Vector Data Description
+% Fast Support Vector Data Description - train
 %
-%  Usage: [nsv alpha bias] = svdd_train(X,ker,C,gamma)
+%  Usage: [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C)
 %
 %  Note: Targets not required for training purposes.
 %  Parameters: X      - Training inputs
-%              ker    - kernel function
-%              gamma  - rbf kernel's param. gamma
-%              C      - upper bound (non-separable case)
-%              nsv    - number of support vectors
-%              alpha  - Lagrange Multipliers
-%              b0     - bias term
+%              K      - Kernel gram matrix - computed on X
+%              C      - upper bound - cost parameter
+%              svi    - support vector indices
+%              alpha  - set of all Lagrange Multipliers
+%              c_prime- the constant which occurs in the disc. function of
+%              fsvdd
+%              gamma_f- the constant factor used in f-svdd - check
+%              formulation
+%              x_hat  - preimage of the agent of center
+
 %
 %  Author: Aravind Sankar (!)
 
   if (nargin <2 || nargin>3) % check correct number of arguments
-    help svdd_train
+    help fsvdd_train
   else
 
     fprintf('Support Vector Data Desctiption\n')
@@ -53,9 +57,6 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C)
     fprintf('Optimising ...\n');
     st = cputime;
     
-    
-   
-    
     [alpha, fval, exitflag, output] = quadprog(H,[],[],[],A,b,vlb,vub,x0,'Display','none','TolX',1e-14,'TolFun',1e-14,'TolCon',1e-14);
     
     
@@ -71,20 +72,14 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C)
     fprintf('Support Vectors : %d (%3.1f%%)\n',nsv,100*nsv/n);
 
     svii = find( alpha > epsilon & alpha < (C - epsilon));
-%       if length(svii) > 0
-%         b0 =  (1/length(svii))*sum(Y(svii) - H(svii,svi)*alpha(svi).*Y(svii));
-%       else 
-%         fprintf('No support vectors on margin - cannot compute bias.\n');
-%       end
-    %end
-    
+
     % Compute radius R and c for use later in prediction.
     
    
     k = svii(1);
     
     
-    %c =0;
+    % computing the radius.
     R2 =1 + alpha'*K*alpha;
 
     avg_val = 0;
@@ -102,18 +97,12 @@ function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C)
     
     R2 = R2 - avg_val;
     
-%     for i = 1:length(svi)
-%         index = svi(i);
-%         c = c+ 2*alpha(index)* K(index,k);
-%     end
-    
-    %c = 1-R2 + alpha'*K*alpha;
-    
+    % compute gamma_f as per the fsvdd paper.
     gamma_f = 1/sqrt(alpha'*K*alpha);
     c_prime = 1 - R2 + 1/(gamma_f*gamma_f);
     z = diag(alpha)*X;
     
-    x_hat = (z'*K*alpha)/(alpha'*K*alpha);
+    x_hat = (z'*K*alpha)/(alpha'*K*alpha); % compute x_hat - direct method
     size(x_hat)
   end
  

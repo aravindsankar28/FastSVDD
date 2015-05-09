@@ -1,14 +1,16 @@
 function predictedY = svdd_predict(trnX,tstX,ker,alpha,svi,c,gamma)
 %svdd_predict Calculate SVDD Outputs
 %
-%  Usage: predictedY = svdd_predict(trnX,trnY,tstX,ker,alpha,bias,actfunc)
+%  Usage: predictedY = svdd_predict(trnX,tstX,ker,alpha,svi,c,gamma)
 %
-%  Parameters: trnX   - Training inputs
-%              trnY   - Training targets
-%              tstX   - Test inputs
-%              ker    - kernel function
-%              svi    - sv indices
-%              beta   - Lagrange Multipliers             
+%  Parameters: trnX   -     Training inputs
+%              tstX   -     Test inputs
+%              ker    -     kernel function - use 'rbf'
+%              svi    -     sv indices
+%              alpha  -     Lagrange Multipliers             
+%              c      -     constant which is a part of disc. function
+%              gamma  -     rbf kernel's param. gamma - 1/(2*sigma^2)
+%              predictedY - output labels for test dataset tstX
 %  Author: Aravind Sankar (!)
     
   if (nargin < 6 || nargin > 7) % check correct number of arguments
@@ -24,7 +26,7 @@ function predictedY = svdd_predict(trnX,tstX,ker,alpha,svi,c,gamma)
       end
     end
     alpha = alpha(svi);
-    
+    % check the formulation for disc. fn. - direct application.
     predictedY = sign(2*H*alpha - c);
       
   end

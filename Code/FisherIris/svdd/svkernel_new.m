@@ -8,7 +8,7 @@ function k = svkernel(ker,u,v,gamma)
 %
 %  Values for ker: 'linear'  -
 %                  'poly'    - p1 is degree of polynomial
-%                  'rbf'     - p1 is width of rbfs (sigma)
+%                  'rbf'     - gamma - 1/(2*sigma^2)
 %                  'sigmoid' - p1 is scale, p2 is offset
 %                  'spline'  -
 %                  'bspline' - p1 is degree of bspline
@@ -16,7 +16,7 @@ function k = svkernel(ker,u,v,gamma)
 %                  'erfb'    - p1 is width of rbfs (sigma)
 %                  'anova'   - p1 is max order of terms
 %              
-%  Author: Steve Gunn (srg@ecs.soton.ac.uk)
+
 
   if (nargin < 1) % check correct number of arguments
      help svkernel

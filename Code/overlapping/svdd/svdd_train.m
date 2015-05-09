@@ -1,16 +1,18 @@
 function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
-%SVC Support Vector Data Description
+%SVDD Support Vector Data Description
 %
-%  Usage: [nsv alpha bias] = svdd_train(X,ker,C,gamma)
+%  Usage: [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
 %
 %  Note: Targets not required for training purposes.
 %  Parameters: X      - Training inputs
-%              ker    - kernel function
-%              gamma  - rbf kernel's param. gamma
-%              C      - upper bound (non-separable case)
-%              nsv    - number of support vectors
-%              alpha  - Lagrange Multipliers
-%              b0     - bias term
+%              ker    - kernel function - use 'rbf'
+%              K      - Precomputed kernel gram matrix
+%              gamma  - rbf kernel's param. gamma - 1/(2*sigma^2)
+%              C      - upper bound - cost parameter
+%              svi    - indices of support vectors
+%              alpha  - set of all Lagrange Multipliers
+%              c      - constant which is a part of the disc. function -
+%              check formulation.
 %
 %  Author: Aravind Sankar (!)
 
@@ -52,10 +54,7 @@ function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
     
     fprintf('Optimising ...\n');
     st = cputime;
-    
-    
-   
-    
+    % call to quadprog - matlab function
     [alpha, fval, exitflag, output] = quadprog(H,[],[],[],A,b,vlb,vub,x0,'Display','none','TolX',1e-14,'TolFun',1e-14,'TolCon',1e-14);
     
     
@@ -64,31 +63,24 @@ function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
 
     % Compute the number of Support Vectors
     %epsilon = svtol(C);
-    epsilon = 0.01*C;
+    
+    epsilon = 0.01*C; % set tolerance to detect support vectors.
     
     svi = find( alpha > epsilon);
     nsv = length(svi);
     fprintf('Support Vectors : %d (%3.1f%%)\n',nsv,100*nsv/n);
 
     svii = find( alpha > epsilon & alpha < (C - epsilon));
-%       if length(svii) > 0
-%         b0 =  (1/length(svii))*sum(Y(svii) - H(svii,svi)*alpha(svi).*Y(svii));
-%       else 
-%         fprintf('No support vectors on margin - cannot compute bias.\n');
-%       end
-    %end
-    
     % Compute radius R and c for use later in prediction.
     
    
     k = svii(1);
     
-    
-    %c =0;
+    % Compute radius^2
     R2 =1 + alpha'*K*alpha;
 
     avg_val = 0;
-    
+    % average over all ubsv's
     for k = 1:length(svii)
         val = 0.0;
         for i = 1:length(svi)
@@ -102,12 +94,7 @@ function [svi, alpha,c] = svdd_train(X,K,ker,C,gamma)
     
     R2 = R2 - avg_val;
     
-%     for i = 1:length(svi)
-%         index = svi(i);
-%         c = c+ 2*alpha(index)* K(index,k);
-%     end
-    
-    c = 1-R2 + alpha'*K*alpha;
+    c = 1-R2 + alpha'*K*alpha; 
     R2
   end
  

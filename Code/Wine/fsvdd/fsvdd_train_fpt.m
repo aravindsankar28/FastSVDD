@@ -1,17 +1,21 @@
 function [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train(X,K,C,gamma)
-%SVC Support Vector Data Description
+% Fast Support Vector Data Description - fixed point iteration
 %
-%  Usage: [nsv alpha bias] = svdd_train(X,ker,C,gamma)
+%  Usage: [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(X,K,C,gamma)
 %
 %  Note: Targets not required for training purposes.
 %  Parameters: X      - Training inputs
-%              ker    - kernel function
+%              K      - Precomputed kernel gram matrix
 %              gamma  - rbf kernel's param. gamma
 %              C      - upper bound (non-separable case)
-%              nsv    - number of support vectors
+%              svi    - support vectors indices
 %              alpha  - Lagrange Multipliers
-%              b0     - bias term
-%
+%              c_prime- the constant which occurs in the disc. function of
+%              fsvdd
+%              gamma_f- the constant factor used in f-svdd - check
+%              formulation
+%              x_hat  - preimage of the agent of center
+
 %  Author: Aravind Sankar (!)
   
   if (nargin <3 || nargin>4) % check correct number of arguments
