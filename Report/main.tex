@@ -201,7 +201,10 @@ Thus, we can see that the $g(x)$ has only one kernel function term, which makes 
 \section{Experiments}
 In this section, we describe the experiments that were performed to compare the performance of F-SVDD with C-SVDD. Specifically, we compare F-SVDD - 1 (direct preimage finding method), F-SVDD - 2 (fixed point iteration method) and C-SVDD (basic SVDD formulation) for the performance in terms of generalization performance (accuracy) and classification speed (training and testing). In addition to this, we also compare the generalization performance against a non-kernel method which is that of a Multi-Layer Feed Forward Neural Network (MLFFNN) [3]. MATLAB was used to implement all of the three SVDD algorithms, specifically using the optimization toolbox. MLFFNN was implemented using the default MATLAB toolbox. 
 
-We use 2 real world datasets obtained from the UCI ML\footnote{http://archive.ics.uci.edu/ml/} repository and one synthetic dataset (from our assignment) for our evaluation. We also use another synthetic dataset to illustrate the differences between F-SVDD and C-SVDD.
+We use 2 real world datasets obtained from the UCI ML\footnote{http://archive.ics.uci.edu/ml/} repository and one synthetic dataset (from our assignment) for our evaluation. We also use another synthetic dataset to illustrate the differences between F-SVDD and C-SVDD. \\[5pt]
+
+All the experiments were performed on a system with Intel 2.3 GHz i5 processor and 6 GB main memory. \\[5pt]
+
 
 In all our experiments (expect overlapping dataset) involving SVDD and associated algorithms, the best values of the parameters $C$ and $\sigma$ were found by performing 10-fold cross validation. These values were obtained by performing cross validation for the C-SVDD algorithm. For maintaining fairness of results, the same values of $C$ and $\sigma$ were used for the F-SVDD algorithms also. For the MLFFNN, we performed cross-validation to estimate the number of nodes in the hidden layer. \\[5pt]
 
@@ -357,6 +360,7 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 
 \item On the contrary, the F-SVDD-2 takes abound 1.28 seconds on an average for training. This is much higher than the other two algorithms and has a lot more variation in the times for each of the classes. The excess time is due to the fact that the fixed point method requires a lot of iterations to converge.
 
+\item The testing time for C-SVDD is found to be quite high due to the $N_s$ computations for the predicting of an unseen data point. In comparison, we observe that the testing time for F-SVDD-1 and 2 are negligible, as they involve only 1 computation for a new point. This shows the tremendous increase in classification speed in the F-SVDD algorithms.
 \end{enumerate}
 
 

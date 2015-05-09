@@ -72,7 +72,7 @@ class3_test = class3_rest(11:25,:);
 
 % Creating train, val and test - for target class as class 3 - uncomment it
 % to run for this case
-
+% 
 train = class3_train;
 target_train = ones(length(class3_train),1);
 

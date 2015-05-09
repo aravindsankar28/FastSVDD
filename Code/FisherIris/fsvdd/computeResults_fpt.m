@@ -1,9 +1,9 @@
-% C = 0.4;
-% g = 9.7656e-04;
-
+ %C = 0.42;
 %g = 9.765625e-04;
-g = 0.0008;
+%g = 0.0008;
 C = 0.3;
+g = 0.001953125000000
+%g =  0.004853125000000;
 
 ker = 'rbf';
 
@@ -12,7 +12,7 @@ avg_train_err = 0;
 avg_val_err = 0;
 avg_test_err = 0;
 
-for i = 1:10
+for i = 1:50
     
 load_data;
 K = computeKgm(train,ker,g);
@@ -44,9 +44,25 @@ avg_err_rate = avg_err_rate + x/125;
 end
 
 
-fprintf('TAE = %g \n',avg_err_rate/10);
+t = cputime;
+for i = 1:10
+    [svi, alpha,c_prime,gamma_f,x_hat] = fsvdd_train_fpt(train,K,C,g); 
+end
+e = cputime -t;
+fprintf('Training time - %g \n',e/10);
 
-fprintf('Avg val error = %g \n',avg_val_err/10);
 
-fprintf('Avg test error = %g \n',avg_test_err/10);
+t = cputime;
+for i = 1:10
+    [pred_test] =fsvdd_predict(test,ker,c_prime,g,gamma_f,x_hat);
+end
+e = cputime -t;
+fprintf('Testing time - %g \n',e/10);
+
+
+fprintf('TAE = %g \n',avg_err_rate/50);
+
+fprintf('Avg val error = %g \n',avg_val_err/50);
+
+fprintf('Avg test error = %g \n',avg_test_err/50);
 

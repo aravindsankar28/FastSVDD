@@ -1,5 +1,7 @@
+%C = 0.42;
 C = 0.3;
-g =    0.001953125000000
+%g =    0.001953125000000;
+g = 0.005153125000000;
 %g = 9.765625000000000e-04;
 
 ker = 'rbf';
@@ -42,6 +44,21 @@ avg_err_rate = avg_err_rate + x/125;
 end
 
 
+t = cputime;
+for i = 1:10
+    [svi, alpha,c] = svdd_train(train,K,ker,C,g);
+end
+e = cputime -t;
+fprintf('Training time - %g \n',e/10);
+
+
+
+t = cputime;
+for i = 1:10
+    [pred_test] =svdd_predict(train,test,ker,alpha,svi,c,g);
+end
+e = cputime -t;
+fprintf('Testing time - %g \n',e/10);
 
 fprintf('TAE = %g \n',avg_err_rate/10);
 

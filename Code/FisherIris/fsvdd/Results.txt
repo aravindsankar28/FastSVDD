@@ -1,7 +1,11 @@
 FSVDD - direct  - class 1 as target class 
-Averaged over 10 runs with different training data points. (N = 25)
+Averaged over 50 runs with different training data points. (N = 25)
 
-TAE 0.0256
+Training time - 0.0249602 
+Testing time - 0.00312002 
+
+TAE 0.0256 or 0.02752 
+
 
 Avg val error 0.0567
 
@@ -35,7 +39,10 @@ Test accuracy 0.989474
 FSVDD - Fixed point iteration  - class 1 as target class 
 Averaged over 10 runs with different training data points. (N = 25)
 
-TAE = 0.0288 
+Training time - 0.0468003 
+Testing time - 0.00156001 
+
+TAE = 0.0288 or 0.0296 
 Avg val error = 0.0733333 
 Avg test error = 0.0147368 
 
@@ -43,24 +50,35 @@ Avg test error = 0.0147368
 
 FSVDD - direct  - class 2 as target class 
 
+Training time -  0.0280802 
+Testing time - 0.00156001 
 
-TAE = 0.076 
+TAE = 0.076 or 0.08032 ( second time gave this :/ )
 Avg val error = 0.08 
 Avg test error = 0.0747368 
 
 FSVDD - Fixed point iteration  - class 2 as target class 
+Training time - 0.0577204 
+Testing time - 0.00156001 
+
 TAE = 0.0864 
 Avg val error = 0.0833333 
 Avg test error = 0.0873684 
 
 
 FSVDD - direct  - class 3 as target class 
+Training time - 0.0577204 
+Testing time - 0.00156001 
 
-TAE = 0.0864 
+TAE = 0.0884 
 Avg val error = 0.12 
 Avg test error = 0.0757895  
 
 FSVDD - Fixed point iteration  - class 3 as target class 
+
+Training time - 0.110761 
+Testing time - 0.00312002 
+
 TAE = 0.0832 
 Avg val error = 0.123333 
 Avg test error = 0.0705263 
