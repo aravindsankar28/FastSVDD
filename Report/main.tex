@@ -189,10 +189,10 @@ We can clearly see that the problems faced by the fixed point iteration method h
 \subsubsection{Discriminant function}
 Finally, the discriminant function $g(x)$ is given by 
 
-\begin{equation}
+\begin{equation} \label{disc}
 \begin{split}
 g(x) &= || \phi(x) - a_\phi||^2 - R^2 = ||\phi(x) - \frac{\phi(\hat{x})}{\gamma} || - R^2 \\
- &=   c' - \frac{2}{\gamma} K(x,\hat{x}) \\
+ &=   c' - \frac{2}{\gamma} K(x,\hat{x}) \\ 
  & \text{where}\;  c' = 1- R^2 + 1/\gamma^2 \; \text{is a constant}.
 \end{split}
 \end{equation}
@@ -237,7 +237,9 @@ For the task of Novelty detection , we need to define our target and outlier cla
 
 In this case, we are given explicit validation and test datasets. So, we find out the best values of $C$ and $\sigma$ only over the given validation set. The best value of $\sigma$ obtained was 0.3371. Also, the value of $C$ was estimated for each of the 4 experiments and the range of values of $C$ obtained was from 0.02 to 0.04.
 The performance (TAER) obtained for each of the 4 experiments is shown below : \\[5pt]
+\begin{table}[t]
 \begin{center}
+\caption{Comparison of Average Error rates on Overlapping classes dataset}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
@@ -263,6 +265,8 @@ Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
 
 \end{tabular} \\[10pt]
 \end{center}
+
+\end{table}
 
 The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 classes are shown below :
 
@@ -340,8 +344,9 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 
 
 The running times that were observed for each of the algorithms are shown below :
-
+\begin{table}[t]
 \begin{center}
+\caption{Running time comparison for Overlapping classes dataset}
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \multicolumn{2}{|c|}{FSVDD-2}  \\ \hline
@@ -353,6 +358,8 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 
 \end{tabular} \\[5pt]
 \end{center}
+\end{table}
+
 
 \textbf{Observations :}
 \begin{enumerate}
@@ -363,10 +370,12 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 \item The testing time for C-SVDD is found to be quite high due to the $N_s$ computations for the predicting of an unseen data point. In comparison, we observe that the testing time for F-SVDD-1 and 2 are negligible, as they involve only 1 computation for a new point. This shows the tremendous increase in classification speed in the F-SVDD algorithms.
 \end{enumerate}
 
-
+ 
 \subsection{Iris Dataset :} \footnote{https://archive.ics.uci.edu/ml/datasets/Iris}
 This is a well known pattern recognition data set containing 3 classes of 50 instances each. This dataset is 4 dimensional with one linearly separable class while the other 2 overlap. Class 1 can be separated well from the other 2 classes. The dataset has 150 points in total, containing 50 points in each class.
 The scatter plot of the dataset is shown below illustrates the separability when projected on the petal dimensions.
+
+
 
 
 \begin{figure}
@@ -385,12 +394,79 @@ The scatter plot of the dataset is shown below illustrates the separability when
 
 For the task of Novelty detection , we performed 3 sets of experiments considering each of the three classes as the target class and the rest of the points as outliers. For the purpose of discussion, let us choose class 1 as the target class. We choose 25 points of class 1 to train, and divide the rest into validation and test sets. The best values of $C$ and $\sigma$ obtained were $C = 0.4$ and $\sigma = 22.3$. 
 
+...add more content here ...
+
+The performance of the 3 algorithms on this dataset are shown below :
+
+
+\begin{table}[t]
+\begin{center}
+\caption{Comparison of Average Error rates on Fisher dataset}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Target class & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
+1 ($N_{train} = 25$) &  0.0224  & 0.0275  & 0.0296  &. \\ \hline
+2 ($N_{train} = 25$) &  0.0632  &  0.0780  & 0.0864  &. \\ \hline
+3 ($N_{train} = 25$) & 0.0616  &  0.0884  & 0.0832 &. \\ \hline
+Average TAER &  0.0491 & 0.0646 &  0.0664 &. \\ \hline
+
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\textbf{Observations :}
+\begin{enumerate}
+\item ...
+\end{enumerate}
+
+
+
+
+The observed running times on this dataset for the different algorithms are shown below :
+
+\begin{table}[t]
+\begin{center}
+\caption{Running time comparison for Fisher Iris dataset}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \multicolumn{2}{|c|}{FSVDD-2}  \\ \hline
+& Training & Testing & Training & Testing & Training & Testing \\ \hline
+1 ($N_{test} =125$)  & 0.02028 & 0.0109 & 0.02496  & 0.0031 & 0.0468 & 0.0015 \\ \hline
+2 ($N_{test} =125$) & 0.02184 & 0.00936 & 0.0281  &  0.0015 & 0.0577 & 0.0015 \\ \hline
+3 ($N_{test} =125$) &  0.02808 &  0.01248 & 0.0218  & 0.0031 & 0.0748 & 0.0015 \\ \hline
+
+\end{tabular} \\[5pt]
+\end{center}
+\end{table}
+
+
+
 
 \subsection{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. 
 
 
 \section{Comparison and inferences}
-....add some stuff...
+In this section, we explain the difference in decision regions obtained by C-SVDD and F-SVDD. In the conventional SVDD algorithm, the discriminant function $g(x)$ is given by :
+
+\[ g(x) = c - 2 \sum\limits_{i=1}^{N_s}\alpha_i K(x,x_i) \].
+
+So, the decision surface which is given by $g(x) = 0$ is   :
+
+\[  \sum\limits_{i=1}^{N_s}\alpha_i K(x,x_i)  = c/2 \]
+
+This leads to a non-linear decision surface in the x-space when a gaussian kernel is used.
+
+For F-SVDD, the discriminant function is given by \ref{disc} and hence the decision boundary is :
+
+\[ K(x,\hat{x}) = \frac{\gamma c'}{2}\]
+
+If we use a gaussian kernel this reduces to a very simple form as shown below :
+
+\[ || x - \hat{x}||^2 = 2 \sigma^2 (1 - \log{\gamma c'}) = c''\] 
+
+The equation above represents a circle in the x-space centered at $\hat{x}$. This is the reason why spherical boundaries are observed in the x-space when a gaussian kernel is used. This proves to a limitation in certain cases, where the points of the target class cannot be compactly covered using a spherical decision surface in the x-space. A simple example of such a scenario is shown below :
+
 
 \begin{figure}
   \centering
@@ -399,6 +475,8 @@ For the task of Novelty detection , we performed 3 sets of experiments consideri
 \end{figure}
 
 
+
+The above figure shows a synthetically generated dataset (2-Ellipses) with 2 intersection ellipses in 2 dimensions.  Clearly, the usage of a spherical decision surface will not be adequate to the separate the points of the 2 classes. To verify this, we plot the decision surfaces obtained on training C-SVDD and F-SVDD on this 2-Ellipses dataset as shown below :
 
 \begin{figure}
 \begin{subfigure}{.5\textwidth}
@@ -415,68 +493,7 @@ For the task of Novelty detection , we performed 3 sets of experiments consideri
 \end{figure}
 
 
-
-%% \subsection{Double-blind reviewing}
-
-%% This year we are doing double-blind reviewing: the reviewers will not know 
-%% who the authors of the paper are. For submission, the NIPS style file will 
-%% automatically anonymize the author list at the beginning of the paper.
-
-%% Please write your paper in such a way to preserve anonymity. Refer to
-%% previous work by the author(s) in the third person, rather than first
-%% person. Do not provide Web links to supporting material at an identifiable
-%% web site.
-
-%%\subsection{Electronic submission}
-%%
-%% \textbf{THE SUBMISSION DEADLINE IS MAY 31st, 2013. SUBMISSIONS MUST BE LOGGED BY
-%% 23:00, MAY 31st, 2013, UNIVERSAL TIME}
-
-%% You must enter your submission in the electronic submission form available at
-%% the NIPS website listed above. You will be asked to enter paper title, name of
-%% all authors, keyword(s), and data about the contact
-%% author (name, full address, telephone, fax, and email). You will need to
-%% upload an electronic (postscript or pdf) version of your paper.
-
-%% You can upload more than one version of your paper, until the
-%% submission deadline. We strongly recommended uploading your paper in
-%% advance of the deadline, so you can avoid last-minute server congestion.
-%%
-%% Note that your submission is only valid if you get an e-mail
-%% confirmation from the server. If you do not get such an e-mail, please
-%% try uploading again. 
-
-
-%% \subsection{Keywords for paper submission}
-%% Your NIPS paper can be submitted with any of the following keywords (more than one keyword is possible for each paper):
-
-%% \begin{verbatim}
-%% Bioinformatics
-%% Biological Vision
-%% Brain Imaging and Brain Computer Interfacing
-%% Clustering
-%% Cognitive Science
-%% Control and Reinforcement Learning
-%% Dimensionality Reduction and Manifolds
-%% Feature Selection
-%% Gaussian Processes
-%% Graphical Models
-%% Hardware Technologies
-%% Kernels
-%% Learning Theory
-%% Machine Vision
-%% Margins and Boosting
-%% Neural Networks
-%% Neuroscience
-%% Other Algorithms and Architectures
-%% Other Applications
-%% Semi-supervised Learning
-%% Speech and Signal Processing
-%% Text and Language Applications
-
-%% \end{verbatim}
-
-
+As expected , the spherical decision surface constructed by F-SVDD is inadequate to separate the 2 classes but on the contrary, C-SVDD constructs a very good decision elliptical decision surface. This is one of the limitations of F-SVDD in spite it's superior classification speed. But, this problem could be solved by using a different normalized kernel function instead of gaussian. But, as we do not know about the data distribution at hand, it becomes quite challenging.
 
 
 %\begin{table}[t]

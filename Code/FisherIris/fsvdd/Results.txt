@@ -67,7 +67,7 @@ Avg test error = 0.0873684
 
 
 FSVDD - direct  - class 3 as target class 
-Training time - 0.0577204 
+Training time - 0.0218
 Testing time - 0.00156001 
 
 TAE = 0.0884 
