@@ -91,5 +91,6 @@ class4 = [class4_train;class4_test;class4_val];
 
 plot(class1(:,1),class1(:,2),'b.',class2(:,1),class2(:,2),'r.',class3(:,1),class3(:,2),'m.',class4(:,1),class4(:,2),'g.');
 title('bivariate 4 class data');
+legend('Class 1','Class 2','Class 3','Class 4');
 xlabel('x');
 ylabel('y');

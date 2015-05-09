@@ -63,21 +63,23 @@ paragraph.
 
 In this paper, the authors address the common well-studied problem of Novelty Detection. In this task, we have a 2-class problem denoted by the normal and abnormal class points, where the number of points of abnormal class is lesser than that of the normal class. We note that this problem is different from the traditional classification problem in that only points of the normal class are used for the purpose of training, essentially a One-Class classification problem.  \\[10pt]
 
-The Support Vector Data Description (SVDD)[1]  is an important and popular technique which has been used to solve the problem of Novelty Detection. In short, SVDD tries to construct a soft minimal hypersphere enclosing the points of the target class (normal) in the kernel feature space ($\phi$). This hypersphere boundary in the kernel feature space is used for prediction to identify the outlier points (novel data). SVDD like any other SVM, has a prediction time complexity linear in the number of support vectors ($N_s$) because $N_s$ evaluations of the kernel function is required for predicting the label of an unseen data point. \\[10pt]
+The Support Vector Data Description (SVDD)[1]  is an important and popular technique which has been used to solve the problem of Novelty Detection. In short, SVDD tries to construct a soft minimal hypersphere enclosing the points of the target class (normal) in the kernel feature space ($\phi$). This hypersphere boundary in the kernel feature space is used for prediction to identify the outlier points (novel data). It can also be shown that the decision boundary between the 2 classes is a hyperplane in the kernel feature space if a normalized kernel function is used. SVDD like any other SVM, has a prediction time complexity linear in the number of support vectors ($N_s$) because $N_s$ evaluations of the kernel function is required for predicting the label of an unseen data point. \\[10pt]
 
-The authors attempt to address this key issue in this paper by proposing Fast SVDD (F-SVDD) [2] which replaces the kernel expansion (of $N_s$ terms) in the decision function with just 1 term. This is achieved by first looking for a vector (called agent of the center) in the $\phi$-space whose preimage $\hat{x}$ exists in the $x$-space. Then, they express the sphere center $a_{\phi}$ as a scalar multiple of this vector in the $\phi$-space. Now, it can be seen the decision function involves only one kernel function between $\hat{x}$ and any unseen data point $x$. This means that the prediction time complexity is constant, irrespective of the size of the training dataset. The authors also propose an efficient method for solving the preimage problem, which is non-iterative and faster than the existing techniques. The way they solve these problems will be explained in the further sections.
+The authors attempt to address this key issue in this paper by proposing Fast SVDD (F-SVDD) [2] which replaces the kernel expansion (of $N_s$ terms) in the decision function with just 1 term. This is achieved by first looking for a vector (called agent of the center) in the $\phi$-space whose preimage $\hat{x}$ exists in the $x$-space. Then, they express the sphere center $a_{\phi}$ as a scalar multiple of this vector in the $\phi$-space. Now, it can be seen the decision function involves only one kernel function between $\hat{x}$ and any unseen data point $x$. This means that the prediction time complexity is constant, irrespective of the size of the training dataset and the number of support vectors. The authors also propose an efficient method for solving the preimage problem, which is non-iterative and faster than the existing techniques. The approaches used to solve these problems will be explained in the further sections.
 
 
 \subsection{SVDD and some properties}
-In this section, we introduce the SVDD problem definition for the purpose of notation. \\[10pt]
+In this section, we introduce the SVDD problem definition for the purpose of notation. The optimization problem that we solve for involves $a_\phi$ (center of the sphere), $\left\lbrace \xi_i \right\rbrace_{i=1}^N$ (slacks) and $R$ (radius of the hypersphere) as the optimization variables while $C$ is a user specified cost parameter. We assume that we have a training dataset $D = \left\lbrace x_i \right\rbrace_{i=1}^N$.
+The primal and dual problems are shown below :
+\\[10pt]
 
-\textbf{Primal problem :}
+\textbf{Primal problem (with constraints) :}
 \begin{equation}
 \begin{split}
 \text{min} \; R^2 + C \sum\limits_{i=1}^N \xi_i \\
 \text{subject to}\\
 ||\phi(x_i) - a_{\phi}||^2  \leq R^2 + \xi_i \\
-\xi_i \geq 0 \; \forall i = 1,...N
+\xi_i \geq 0 \;\; \forall i = 1,...N
 \end{split}
 \end{equation}
 
@@ -92,11 +94,12 @@ In this section, we introduce the SVDD problem definition for the purpose of not
 \end{split}
 \end{equation}
 
-
+As usual, the lagrange multipliers $\left\lbrace \alpha_i \right\rbrace_{i=1}^N$ are associated with the primal constraint involving $\xi_i$'s.
 Here, the discriminant function $g(x)$ is given by :
 
 \[ g(x) = ||\phi(x_i) - a_{\phi}||^2 - R^2 = c - 2 \sum\limits_{i=1}^{N_s}\alpha_i K(x,x_i) \]
 where $c$ is a constant. \\[10pt]
+
 
 The sphere center $a_\phi$ is given by :
 
@@ -110,12 +113,12 @@ We also compute $||a_\phi||$ as it will be used later,
 where $K$ is the kernel gram matrix. \\[10pt]
 
 
-Let's denote the soft minimal hypersphere (constructed by SVDD over the training points) as $B_S$. We assume the use of a gaussian kernel function (can  be extended for any normalized kernel also)so that $K(x,x) = 1$. So, all points $\phi(x)$ lie on a unit hypersphere (centered at origin $O_\phi$) in the kernel feature space, denoted by $B_\phi$. This leads to interesting geometrical properties in the kernel feature space. One main property is mentioned below : \\[10pt]
+Let the soft minimal hypersphere (constructed by SVDD over the training points) be denoted as $B_S$. We assume the use of a gaussian kernel function (can  be extended for any normalized kernel also) so that $K(x,x) = 1$. So, all points $\phi(x)$ lie on a unit hypersphere (centered at origin $O_\phi$) in the kernel feature space, denoted by $B_\phi$. This leads to interesting geometrical properties in the kernel feature space. One main property is mentioned below : \\[10pt]
 
 \textbf{Property :} The center $a_\phi$ of the SVDD hypersphere $B_S$ must lie inside the unit hypersphere $B_{\phi}$. \\[10pt]
 
 
-This property shows that the exact preimage of $a_\phi$ in the x-space does not exist. This means that, either only an approximate preimage can be found, or a different way needs to be found. F-SVDD does this by identifying the \textit{agent} of the center whose pre-image exists in the x-space. The following sections explain the process of finding the agent and it's preimage.
+This property shows that the exact preimage of $a_\phi$ in the x-space does not exist. This means that, either only an approximate preimage can be found, or a different way needs to be found. F-SVDD does this by identifying the \textit{agent} of the center whose pre-image exists in the x-space. The following sections explain the process of finding the agent and the corresponding preimage.
 
 
 \subsection{Fast SVDD}
@@ -124,7 +127,7 @@ first defines the agent of the center.
 
 \subsubsection{Agent of the center}
 
-Let's denote the agent of the center $\Psi_a$ (in the kernel feature space). We want $\Psi_a$ to have a pre-image $\hat{x}$ in the x-space.  This directly implies that $\Psi_a$ should lie on the unit hypersphere  $B_{\phi}$ centered at Origin in the kernel feature space. This gives us  
+Let the agent of the center be denoted by $\Psi_a$ (in the kernel feature space). We want $\Psi_a$ to have a pre-image $\hat{x}$ in the x-space.  This directly implies that $\Psi_a$ should lie on the unit hypersphere  $B_{\phi}$ centered at Origin in the kernel feature space. This gives us  
 
 \begin{equation}\label{norm1}
 ||\psi_a|| = 1 
@@ -193,24 +196,144 @@ g(x) &= || \phi(x) - a_\phi||^2 - R^2 = ||\phi(x) - \frac{\phi(\hat{x})}{\gamma}
  & \text{where}\;  c' = 1- R^2 + 1/\gamma^2 \; \text{is a constant}.
 \end{split}
 \end{equation}
-Thus, we can see that the $g(x)$ has only one kernel function term, which makes the prediction time complexity a constant.
+Thus, we can see that the $g(x)$ has only one kernel function term, which makes the prediction time complexity a constant. 
 
 \section{Experiments}
-In this section, we describe the experiments that we've performed to compare the performance of F-SVDD with C-SVDD. Specifically, we compare F-SVDD - 1 (direct preimage finding method), F-SVDD - 2 (fixed point iteration method) and C-SVDD for the performance in terms of generalization performance (accuracy) and classification speed (training and testing). In addition to this, we also compare the generalization performance against a non-kernel method which is that of a Multi-Layer Feed Forward Neural Network (MLFFNN) [3]. MATLAB was used to implement all of the three SVDD algorithms, specifically using the optimization toolbox. MLFFNN was implemented using the deafult MATLAB toolbox. 
+In this section, we describe the experiments that were performed to compare the performance of F-SVDD with C-SVDD. Specifically, we compare F-SVDD - 1 (direct preimage finding method), F-SVDD - 2 (fixed point iteration method) and C-SVDD (basic SVDD formulation) for the performance in terms of generalization performance (accuracy) and classification speed (training and testing). In addition to this, we also compare the generalization performance against a non-kernel method which is that of a Multi-Layer Feed Forward Neural Network (MLFFNN) [3]. MATLAB was used to implement all of the three SVDD algorithms, specifically using the optimization toolbox. MLFFNN was implemented using the default MATLAB toolbox. 
+
+We use 2 real world datasets obtained from the UCI ML\footnote{http://archive.ics.uci.edu/ml/} repository and one synthetic dataset (from our assignment) for our evaluation. We also use another synthetic dataset to illustrate the differences between F-SVDD and C-SVDD.
+
+In all our experiments (expect overlapping dataset) involving SVDD and associated algorithms, the best values of the parameters $C$ and $\sigma$ were found by performing 10-fold cross validation. These values were obtained by performing cross validation for the C-SVDD algorithm. For maintaining fairness of results, the same values of $C$ and $\sigma$ were used for the F-SVDD algorithms also. For the MLFFNN, we performed cross-validation to estimate the number of nodes in the hidden layer. \\[5pt]
 
 
-We use 2 real world datasets, and one synthetic dataset (from our assignment) for our evaluation. We also use another synthetic dataset to illustrate the differences between F-SVDD and C-SVDD.
+\textbf{Evaluation metric :}
 
 The metric used for evaluating the generalization performance is  TAER (Total Average Error Rate) given by :
-
 \[ \texttt{TAER} = \frac{\texttt{Number of misclassified points}}{\texttt{Total number of points}} \]
 
-In the following subsections, we analyze the results obtained on each of the three datasets.
+The values of TAER reported in the results section are the average values obtained over 50 random samples of training data (the rest of the points used for testing). 
+
+We also evaluate the most important objective of this paper, which is the classification speed. We report both the training and testing times for each of the SVDD algorithms.
+
+In the following subsections, we analyze the results obtained on each of the three datasets. \\[10pt]
+
+
+
+\subsection{Overlapping classes dataset :} This is the same dataset that was used in our assignments. We use this for visualization and interpreting since it is 2 dimensional. In this dataset, we have 4 classes which are overlapping and hence linearly non-separable. So, a 100 \% accuracy cannot be expected for any classification/ novelty detection task on this dataset.
+The scatter plot of the dataset is shown below :
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/data}
+  \caption{Overlapping classes dataset with 4 classes}
+\end{figure}
+
+The above plot shows the un-normalized dataset, while we have used the min-max normalization to reduce the  range of each coordinate to $[0,1]$. 
+
+For the task of Novelty detection , we need to define our target and outlier class points. So, we perform 4 experiments where in $\text{experiment}_{i}$ points of class $i$ are taken as the target (or normal) points, while the rest are considered as outliers. The size of training set was 250, while the sizes of validation and test sets were 600 and 400 respectively.
+
+In this case, we are given explicit validation and test datasets. So, we find out the best values of $C$ and $\sigma$ only over the given validation set. The best value of $\sigma$ obtained was 0.3371. Also, the value of $C$ was estimated for each of the 4 experiments and the range of values of $C$ obtained was from 0.02 to 0.04.
+The performance (TAER) obtained for each of the 4 experiments is shown below : \\[5pt]
+
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
+ 1 & Train & 0.1240 & 0.1480 & 0.1360 & . \\ 
+ (N = 250) & Validation & 0.1117 & 0.1750 & 0.1733 &  \\ 
+ & Test &  0.1475 & 0.1925 &  0.1925 & . \\ \hline
+ 
+ 2 & Train & 0.1160 & 0.1640 & 0.1640 & . \\ 
+  (N = 250)& Validation &  0.1117  &  0.0867 &  0.0817 & . \\ 
+ & Test &  0.1117  &  0.0800 & 0.0800  & . \\ \hline
+ 
+ 
+ 3 & Train & 0.1880 & 0.2080  & 0.2080 & . \\ 
+ (N = 250) & Validation & 0.0817 & 0.1100 &  0.1100 & . \\ 
+ & Test &  0.0875 &  0.1200 & 0.1200  & . \\ \hline
+ 
+ 
+ 4 & Train & 0.1040 & 0.1520 &  0.1760 & . \\ 
+ (N = 250) & Validation &  0.0467 & 0.1217 & 0.1250 & . \\ 
+ & Test & 0.0500 &  0.1450 &  0.1525 & . \\ \hline
+ 
+& Average test error  & . & .& . &. \\ \hline
+\end{tabular} \\[10pt]
+
+
+The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 classes are shown below :
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_1}
+\caption{C-SVDD} 
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/fsvdd/decn_1}
+\caption{F-SVDD} 
+\end{subfigure}
+\caption{Decision region plot with class-1 points as target class} 
+\end{figure}
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_2}
+\caption{C-SVDD} 
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/fsvdd/decn_2}
+\caption{F-SVDD} 
+\end{subfigure}
+\caption{Decision region plot with class-2 points as target class} 
+\end{figure}
+
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_3}
+\caption{C-SVDD} 
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/fsvdd/decn_3}
+\caption{F-SVDD} 
+\end{subfigure}
+\caption{Decision region plot with class-3 points as target class} 
+\end{figure}
+
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/decn_4}
+\caption{C-SVDD} 
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/overlapping/fsvdd/decn_4}
+\caption{F-SVDD} 
+\end{subfigure}
+\caption{Decision region plot with class-4 points as target class} 
+\end{figure}
+
+\textbf{Observations :}
+\begin{enumerate}
+\item 
+\end{enumerate}
+
+
 
 
 \subsection{Iris Dataset :} \footnote{https://archive.ics.uci.edu/ml/datasets/Iris}
 This is a well known pattern recognition data set containing 3 classes of 50 instances each. This dataset is 4 dimensional with one linearly separable class while the other 2 overlap. Class 1 can be separated well from the other 2 classes. The dataset has 150 points in total, containing 50 points in each class.
-The scatter plot of the dataset is shown below illustrates this well.
+The scatter plot of the dataset is shown below illustrates the separability when projected on the petal dimensions.
 
 
 \begin{figure}
@@ -227,17 +350,37 @@ The scatter plot of the dataset is shown below illustrates this well.
 \caption{Scatter plot of the Fisher Iris dataset}
 \end{figure}
 
-For the task of Novelty detection , we performed 3 sets of experiments considering each of the three classes as the target class and the rest of the points as outliers. For the purpose of discussion, let's choose class 1 as the target class. We choose 25 points of class 1 to train, and divide the rest into validation and test sets. The parameters $C$ and $\sigma$ were found by performing 10-fold cross validation, and the values of TAER are the average values obtained over 10 random samples of training data. The best values of $C$ and $\sigma$ obtained were $C = 0.4$ and $\sigma = 22.3$. These values were obtained by performing cross validation for the C-SVDD algorithm. For maintaining fairness of results, the same values of $C$ and $\sigma$ were used for the F-SVDD algorithms also.
-
-\subsection{Overlapping classes dataset :} This is the same dataset that was used in our assignments. We use this for visualization and interpreting since it is 2 dimensional. In this dataset, we have 4 classes which are overlapping. The scatter plot of the dataset is shown below :
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{../Code/overlapping/svdd/data}
-\end{figure}
+For the task of Novelty detection , we performed 3 sets of experiments considering each of the three classes as the target class and the rest of the points as outliers. For the purpose of discussion, let us choose class 1 as the target class. We choose 25 points of class 1 to train, and divide the rest into validation and test sets. The best values of $C$ and $\sigma$ obtained were $C = 0.4$ and $\sigma = 22.3$. 
 
 
 \subsection{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. 
+
+
+\section{Comparison and inferences}
+....add some stuff...
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/Ellipse/svdd/data}
+  \caption{2-Ellipse classes dataset with 2 classes}
+\end{figure}
+
+
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/Ellipse/svdd/decn}
+\caption{C-SVDD} 
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../Code/Ellipse/fsvdd/decn}
+\caption{F-SVDD}  
+\end{subfigure}
+\caption{Decision region plots obtained on the 2-ellipse dataset}
+\end{figure}
+
 
 
 %% \subsection{Double-blind reviewing}
