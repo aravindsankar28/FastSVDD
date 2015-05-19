@@ -41,8 +41,7 @@ class3_test = class3_rest(11:25,:);
 
 
 
-data_input = [train_data; val_data; test_data];
-data_target = [target_train; target_val; target_test];
+
 
 %save('data.mat');
 
@@ -50,47 +49,48 @@ data_target = [target_train; target_val; target_test];
 
 % Creating train, val and test - for target class as class 1 
 % 
-% train = class1_train;
+% train_data = class1_train;
 % target_train = ones(length(class1_train),1);
 % 
-% val = [class1_val; class2_val ; class3_val; ];
-% target_val = [ones(length(class1_val),1); ones(length(class2_val),1)*(-1); ones(length(class3_val),1)*(-1);];
+% val_data = [class1_val; class2_val ; class3_val; ];
+% target_val = [ones(length(class1_val),1); zeros(length(class2_val),1)*(-1); zeros(length(class3_val),1)*(-1);];
 % 
-% test = [class1_test; class2_train; class2_test ; class3_train; class3_test; ];
-% target_test = [ones(length(class1_test),1); ones(length(class2_train),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_train),1)*(-1); ones(length(class3_test),1)*(-1);];
+% test_data = [class1_test; class2_train; class2_test ; class3_train; class3_test; ];
+% target_test = [ones(length(class1_test),1); zeros(length(class2_train),1)*(-1); zeros(length(class2_test),1)*(-1); zeros(length(class3_train),1)*(-1); zeros(length(class3_test),1)*(-1);];
 
 % Creating train, val and test - for target class as class 2 - Uncomment if
 % needed
 
-% train = class2_train;
+% train_data = class2_train;
 % target_train = ones(length(class2_train),1);
 % 
-% val = [class1_val; class2_val ; class3_val; ];
-% target_val = [ones(length(class1_val),1)*(-1); ones(length(class2_val),1); ones(length(class3_val),1)*(-1);];
+% val_data = [class1_val; class2_val ; class3_val; ];
+% target_val = [zeros(length(class1_val),1)*(-1); ones(length(class2_val),1); zeros(length(class3_val),1)*(-1);];
 % 
-% test = [class1_train ; class1_test; class2_test ; class3_train; class3_test; ];
-% target_test = [ones(length(class1_train),1)*(-1); ones(length(class1_test),1)*(-1); ones(length(class2_test),1); ones(length(class3_train),1)*(-1); ones(length(class3_test),1)*(-1);];
+% test_data = [class1_train ; class1_test; class2_test ; class3_train; class3_test; ];
+% target_test = [zeros(length(class1_train),1)*(-1); zeros(length(class1_test),1)*(-1); ones(length(class2_test),1); zeros(length(class3_train),1)*(-1); zeros(length(class3_test),1)*(-1);];
 % 
 
 
 % Creating train, val and test - for target class as class 3 - uncomment it
 % to run for this case
 
-train = class3_train;
+train_data = class3_train;
 target_train = ones(length(class3_train),1);
 
-val = [class1_val; class2_val ; class3_val; ];
-target_val = [ones(length(class1_val),1)*(-1); ones(length(class2_val),1)*(-1); ones(length(class3_val),1);];
+val_data = [class1_val; class2_val ; class3_val; ];
+target_val = [zeros(length(class1_val),1)*(-1); zeros(length(class2_val),1)*(-1); ones(length(class3_val),1);];
 
-test = [class1_train; class1_test; class2_train; class2_test ; class3_test; ];
-target_test = [ones(length(class1_train),1)*(-1); ones(length(class1_test),1)*(-1); ones(length(class2_train),1)*(-1); ones(length(class2_test),1)*(-1); ones(length(class3_test),1);];
-
-
-train_unscaled = train;
-val_unscaled = val;
-test_unscaled = test;
+test_data = [class1_train; class1_test; class2_train; class2_test ; class3_test; ];
+target_test = [zeros(length(class1_train),1)*(-1); zeros(length(class1_test),1)*(-1); zeros(length(class2_train),1)*(-1); zeros(length(class2_test),1)*(-1); ones(length(class3_test),1);];
 
 
+%train_unscaled = train;
+%val_unscaled = val;
+%test_unscaled = test;
+
+data_input = [train_data; val_data; test_data];
+data_target = [target_train; target_val; target_test];
 % % Scale data
 % 
 % min_coord = zeros(size(train,2),1);
