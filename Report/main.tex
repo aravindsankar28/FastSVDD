@@ -48,11 +48,7 @@ IIT Madras\\
 \maketitle
 
 \begin{abstract}
-The abstract paragraph should be indented 1/2~inch (3~picas) on both left and
-right-hand margins. Use 10~point type, with a vertical spacing of 11~points.
-The word \textbf{Abstract} must be centered, bold, and in point size 12. Two
-line spaces precede the abstract. The abstract must be limited to one
-paragraph.
+Our term paper titled "Fast SVDD for Novelty Detection" proposes a way to reduce the testing time complexity of the SVDD technique by preventing the need for computing the Kernel function value for all support vectors. The details of this are illustrated in the following section. We have tested this against C-SVDD and ANNs for three different datasets and provided our observations and interpretations for the same.
 \end{abstract}
 
 
@@ -208,8 +204,10 @@ All the experiments were performed on a system with Intel 2.3 GHz i5 processor a
 
 In all our experiments (expect overlapping dataset) involving SVDD and associated algorithms, the best values of the parameters $C$ and $\sigma$ were found by performing 10-fold cross validation. These values were obtained by performing cross validation for the C-SVDD algorithm. For maintaining fairness of results, the same values of $C$ and $\sigma$ were used for the F-SVDD algorithms also. For the MLFFNN, we performed cross-validation to estimate the number of nodes in the hidden layer. \\[5pt]
 
-\textbf{(Check this once and decide where to add it )}
+
 In the paper, it has been mentioned that all of the training points are used as support vectors for C-SVDD, i.e. they do not perform a thresholding on the lagrange multipliers obtained due to precision issues. This could be one of the reasons why the testing times reported for C-SVDD in the paper are quite high in comparison to the F-SVDD method.
+
+The neural network is traditionally used only for multi-class (at least 2) classification problems. In our scenario, we are required to use ony point of the target class for training. So, it becomes a one-classification problem. We use a back propagation neural network with 1 hidden layer in our experiments. The number of nodes in the hidden layer is estimated using cross-validation. We use a sigmoid activation function (logistic) at the hidden and output layers. So, the range of the outputs is from $[0,1]$. Since the neural network tries to only fit the points of the target class, most of the outputs will be very close to 1. So, we cannot use the default threshold of 0.5 to classify points as normal/abnormal. Hence, threshold of 0.9 is used in all of our experiments. A very high value of threshold indicates that we are trying to fit a tight decision surface around the target class points because the values of the output node decrease as points move away from the core of the target class points. 
 
 
 
@@ -222,10 +220,8 @@ The values of TAER reported in the results section are the average values obtain
 
 We also evaluate the most important objective of this paper, which is the classification speed. We report both the training and testing times for each of the SVDD algorithms.
 
-In the following subsections, we analyze the results obtained on each of the three datasets. \\[10pt]
-
-
-
+In the following subsections, we analyze the results obtained on each of the three datasets.
+\newpage
 \subsection{Overlapping classes dataset :} This is the same dataset that was used in our assignments. We use this for visualization and interpreting since it is 2 dimensional. In this dataset, we have 4 classes which are overlapping and hence linearly non-separable. So, a 100 \% accuracy cannot be expected for any classification/ novelty detection task on this dataset.
 The scatter plot of the dataset is shown below :
 
@@ -240,32 +236,31 @@ The above plot shows the un-normalized dataset, while we have used the min-max n
 For the task of Novelty detection , we need to define our target and outlier class points. So, we perform 4 experiments where in $\text{experiment}_{i}$ points of class $i$ are taken as the target (or normal) points, while the rest are considered as outliers. The size of training set was 250, while the sizes of validation and test sets were 600 and 400 respectively.
 
 In this case, we are given explicit validation and test datasets. So, we find out the best values of $C$ and $\sigma$ only over the given validation set. The best value of $\sigma$ obtained was 0.3371. Also, the value of $C$ was estimated for each of the 4 experiments and the range of values of $C$ obtained was from 0.02 to 0.04.
-The performance (TAER) obtained for each of the 4 experiments is shown below : \\[5pt]
 \begin{table}[H]
 \begin{center}
 \caption{Comparison of Average Error rates on Overlapping classes dataset}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Target class & Evaluation set & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
- 1 & Train & 0.1240 & 0.1480 & 0.1360 & . \\ 
- (N = 250) & Validation & 0.1117 & 0.1750 & 0.1733 &  \\ 
- & Test &  0.1475 & 0.1925 &  0.1925 & . \\ \hline
+ 1 & Train & 0.1240 & 0.1480 & 0.1360 & 0.0640 \\ 
+ (N = 250) & Validation & 0.1117 & 0.1750 & 0.1733 & 0.2017 \\ 
+ & Test &  0.1475 & 0.1925 &  0.1925 & 0.2450 \\ \hline
  
- 2 & Train & 0.1160 & 0.1640 & 0.1640 & . \\ 
-  (N = 250)& Validation &  0.1117  &  0.0867 &  0.0817 & . \\ 
- & Test &  0.1117  &  0.0800 & 0.0800  & . \\ \hline
- 
- 
- 3 & Train & 0.1880 & 0.2080  & 0.2080 & . \\ 
- (N = 250) & Validation & 0.0817 & 0.1100 &  0.1100 & . \\ 
- & Test &  0.0875 &  0.1200 & 0.1200  & . \\ \hline
+ 2 & Train & 0.1160 & 0.1640 & 0.1640 & 0.0520 \\ 
+  (N = 250)& Validation &  0.1117  &  0.0867 &  0.0817 & 0.1633 \\ 
+ & Test &  0.1117  &  0.0800 & 0.0800  & 0.1725 \\ \hline
  
  
- 4 & Train & 0.1040 & 0.1520 &  0.1760 & . \\ 
- (N = 250) & Validation &  0.0467 & 0.1217 & 0.1250 & . \\ 
- & Test & 0.0500 &  0.1450 &  0.1525 & . \\ \hline
+ 3 & Train & 0.1880 & 0.2080  & 0.2080 & 0.0840 \\ 
+ (N = 250) & Validation & 0.0817 & 0.1100 &  0.1100 & 0.2600 \\ 
+ & Test &  0.0875 &  0.1200 & 0.1200  & 0.2875 \\ \hline
  
-& Average test error  &  0.0992 &  0.1344 & 0.1363 &. \\ \hline
+ 
+ 4 & Train & 0.1040 & 0.1520 &  0.1760 & 0.1565 \\ 
+ (N = 250) & Validation &  0.0467 & 0.1217 & 0.1250 & 0.3340 \\ 
+ & Test & 0.0500 &  0.1450 &  0.1525 & 0.3560 \\ \hline
+ 
+& Average test error  &  0.0992 &  0.1344 & 0.1363 & 0.2650 \\ \hline
 
 \end{tabular} \\[10pt]
 \end{center}
@@ -344,11 +339,15 @@ The decision region plots obtained for C-SVDD and F-SVDD for each of the 4 class
 \item The total error rate for class 1 was observed to be more than that of the other classes, for both the algorithms. This is clearly because of the points of this class have more overlap with the other class points. The error rates observed for the other class points were very similar.
 
 \item The agent of the center $\hat{x}$ found by F-SVDD is also marked in the decision region plot, denoted by a black cross. It is the center of the spherical decision surface that we obtain in the x-space.
-
+\newpage
+\item The performance of neural network on the test and validation data is very poor, indicating poor generalizability.
+\item SVDD based techniques perform much better than neural networks for one class problems. The main problems in nerual networks lie in the choice of the function to be used and the threshold of the output value to decide whether it has classified to the positive class or not.
+\item We also see from the values that NN is overfitting to the training data which is not the case with SVDD.
+\\[10pt]
 \end{enumerate}
 
 
-The running times that were observed for each of the algorithms are shown below :
+The running times that were observed for each of the algorithms are shown below : 
 \begin{table}[H]
 \begin{center}
 \caption{Running time (in seconds) comparison for Overlapping classes dataset}
@@ -375,7 +374,7 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 \item The testing time for C-SVDD is found to be quite high due to the $N_s$ computations for the predicting of an unseen data point. In comparison, we observe that the testing time for F-SVDD-1 and 2 are negligible, as they involve only 1 computation for a new point. This shows the tremendous increase in classification speed in the F-SVDD algorithms.
 \end{enumerate}
 
- 
+ \newpage
 \subsection{Iris Dataset :} \footnote{https://archive.ics.uci.edu/ml/datasets/Iris}
 This is a well known pattern recognition data set containing 3 classes of 50 instances each. This dataset is 4 dimensional with one linearly separable class while the other 2 overlap. Class 1 can be separated well from the other 2 classes. The dataset has 150 points in total, containing 50 points in each class.
 The scatter plot of the dataset is shown below illustrates the separability when projected on the petal dimensions.
@@ -399,9 +398,11 @@ The scatter plot of the dataset is shown below illustrates the separability when
 
 For the task of Novelty detection , we performed 3 sets of experiments considering each of the three classes as the target class and the rest of the points as outliers. For the purpose of discussion, let us choose class 1 as the target class. We choose 25 points of class 1 to train, and divide the rest into validation and test sets. The best values of $C$ and $\sigma$ obtained were $C = 0.4$ and $\sigma = 22.3$. 
 
-...add more content here ...
+Based on the featurewise plots from the previous page, it is very apparent that the first class is quite distinct from the other
+two classes in every feature value. It is easy to separate class 1 from the rest. The more crucial thing here is to separate classes 2 and 3.
+\\[10pt]
 
-The performance of the 3 algorithms on this dataset are shown below :
+The performance of the algorithms on this dataset are shown below :
 
 
 \begin{table}[H]
@@ -410,11 +411,10 @@ The performance of the 3 algorithms on this dataset are shown below :
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 Target class & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
-1 ($N_{train} = 25$) &  0.0224  & 0.0275  & 0.0296  &. \\ \hline
-2 ($N_{train} = 25$) &  0.0632  &  0.0780  & 0.0864  &. \\ \hline
-3 ($N_{train} = 25$) & 0.0616  &  0.0884  & 0.0832 &. \\ \hline
-Average TAER &  0.0491 & 0.0646 &  0.0664 &. \\ \hline
-
+1 ($N_{train} = 25$) &  0.0224  & 0.0275  & 0.0296  & 0.0105 \\ \hline
+2 ($N_{train} = 25$) &  0.0632  &  0.0780  & 0.0864  & 0.1492 \\ \hline
+3 ($N_{train} = 25$) & 0.0616  &  0.0884  & 0.0832 & 0.0800 \\ \hline
+Average TAER &  0.0491 & 0.0646 &  0.0664 & 0.0799\\ \hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -422,9 +422,11 @@ Average TAER &  0.0491 & 0.0646 &  0.0664 &. \\ \hline
 
 \textbf{Observations :}
 \begin{enumerate}
-\item ...
+\item The error rates for class 2 and 3 are higher than that of class 1. This is because points of class 1 are separable (from others) while classes 2 and 3 overlap, which can seen very clearly in Figure 6.  The reason for this as pointed out earlier is that the F-SVDD algorithm forces a hyperspherical decision boundary for the classes in the original space. This performs poorly if classes are intermingled.
+\item The error rates for F-SVDD-1 follow that of C-SVDD closely, with the average TAER begin only 1.5 \% more than C-SVDD. This shows a good generalization performance for F-SVDD.
+\item The error rates for F-SVDD-2 are only slightly inferior to that of F-SVDD-1, which shows that the fixed point method almost always converges to the optimal $\hat{x}$ correctly.
+\item ANN performs very well for class 1 which is quite separable. It also performs decently for class 3 and very poorly for class 2. This is due to the threshold value being attained by some overlapping points of the adjacent classes also. What we observed from the confusion matrix was that a large number of class 3 points also satisfied the threshold for class 2.
 \end{enumerate}
-
 
 
 
@@ -448,16 +450,18 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 
 \textbf{Observations :}
 \begin{enumerate}
-\item 
+\item As in the earlier case, we observe that the training time for F-SVDD-1 is slightly higher than that of C-SVDD because of the computation of the preimage $\hat{x}$. The training time for F-SVDD-2 however, is much higher owing to the large number of iterations required for the convergence of the fixed point method.
+\item Testing times follow the same trends, with F-SVDD-1 and F-SVDD-2 taking negligible time for classification, in comparison to C-SVDD.
 \end{enumerate}
-
-
+\newpage
 
 
 
 \subsection{Wine recognition Dataset :}\footnote{https://archive.ics.uci.edu/ml/datasets/Wine}  - This is a 13 dimensional dataset of chemical constituents, whose classes are not linearly separable. Among the 13 features, we found that 2 attributes - number 5 (Magnesium)  and number 13 (Proline) had totally different ranges compared to the other attributes. To avoid problems due to this, we normalized the entire dataset using min-max normalization. 
-
-This dataset has 178 points, with 59 instances of class 1, 71 instances of class 2 and 48 instances of class 3.
+\\[10pt]
+Due to this, for this class alone, our error rates are even lower than the ones presented in the paper. Not normalizing this dataset would cause the highly varying ranges of the different attributes to impact the result negatively.
+\\[5pt]
+This dataset has 178 points, with 59 instances of class 1, 71 instances of class 2 and 48 instances of class 3. 
 As in the previous cases, we perform 3 experiments considering each of the 3 classes as the target class.
 
 
@@ -468,10 +472,10 @@ As in the previous cases, we perform 3 experiments considering each of the 3 cla
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 Target class & C-SVDD & F-SVDD-1 & F-SVDD-2 & MLFFNN \\ \hline
-1 ($N_{train} = 29$) & 0.0464   & 0.0554  & 0.0632   &. \\ \hline
-2 ($N_{train} = 35$) &  0.2052  &  0.2426   & 0.2592   &. \\ \hline
-3 ($N_{train} = 24$) & 0.0424   &  0.0482  &  0.0548 &. \\ \hline
-Average TAER &  0.0980 & 0.1154 & 0.1257 &. \\ \hline
+1 ($N_{train} = 29$) & 0.0464   & 0.0554  & 0.0632   & 0.0268\\ \hline
+2 ($N_{train} = 35$) &  0.2052  &  0.2426   & 0.2592   & 0.2517 \\ \hline
+3 ($N_{train} = 24$) & 0.0424   &  0.0482  &  0.0548 &  0.2013 \\ \hline
+Average TAER &  0.0980 & 0.1154 & 0.1257 &  0.1599 \\ \hline
 
 \end{tabular}
 \end{center}
@@ -480,7 +484,10 @@ Average TAER &  0.0980 & 0.1154 & 0.1257 &. \\ \hline
 
 \textbf{Observations :}
 \begin{enumerate}
-\item 
+\item In this dataset, the points of class 2 overlap a lot with the other two classes. This clearly noticable from the results as well.
+\item Both F-SVDD techniques perform very poorly for class 2. They are forcing a hyperspherical surface as opposed to the flatter decision surface of C-SVDD and hence provide relatively lower accuracy, given that unevenly overlapping data is poorly separated by a hypersphere.
+\item F-SVDD-2 performs significantly poorer than F-SVDD-1 presumably because the overlap causes the fixed point iterations to fail to converge in a fixed number of iterations (max of 100 in our case).
+\item ANN performs very well here for the first class. This is similar to the observation in the above datasets as well. Overlap causes many points of adjacent classes also to fall into the threshold value, for the NN output value causing the poor accuracy.
 \end{enumerate}
 
 
@@ -502,7 +509,8 @@ Target class & \multicolumn{2}{|c|}{C-SVDD} & \multicolumn{2}{|c|}{F-SVDD-1} & \
 
 \textbf{Observations :}
 \begin{enumerate}
-\item 
+\item With regard to running times the trend is very similar to what was observed for the previous two datasets. Training times are fastest for C-SVDD followed by F-SVDD-1 followed by F-SVDD-2.
+\item The decrease factor in testing times here for F-SVDD comprated to C-SVDD is even more than the previous cases because computing the Gaussian kernel function is more expensive when the number of dimensions of the data go up.
 \end{enumerate}
 
 \section{Comparison and inferences}
@@ -529,7 +537,7 @@ The equation above represents a circle in the x-space centered at $\hat{x}$. Thi
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{Plots/Ellipse/svdd/data}
+  \includegraphics[width=0.8\linewidth]{Plots/Ellipse/svdd/data}
   \caption{2-Ellipse classes dataset with 2 classes}
 \end{figure}
 
@@ -552,8 +560,10 @@ The above figure shows a synthetically generated dataset (2-Ellipses) with 2 int
 \end{figure}
 
 
-As expected , the spherical decision surface constructed by F-SVDD is inadequate to separate the 2 classes but on the contrary, C-SVDD constructs a very good decision elliptical decision surface. This is one of the limitations of F-SVDD in spite it's superior classification speed. But, this problem could be solved by using a different normalized kernel function instead of gaussian. But, as we do not know about the data distribution at hand, it becomes quite challenging.
+As expected, the spherical decision surface constructed by F-SVDD is inadequate to separate the 2 classes but on the contrary, C-SVDD constructs a very good decision elliptical decision surface. This is one of the limitations of F-SVDD in spite it's superior classification speed. But, this problem could be solved by using a different normalized kernel function instead of gaussian. But as we do not know about the data distribution before hand, the task becomes quite challenging.
 
+\section{Conclusion}
+From the experimental results obtained, we observe that F-SVDD proves to be very efficient algorithm for the task of novelty detection. In comparision to C-SVDD, the generalization performance dips slightly, but there is an overwhelming increase in the classification speed. The testing time complexity of F-SVDD is $O(1)$ which makes suitable for real-time applications where speed is very important. In real-time systems, accuracy do not matter to a great extent, thus making F-SVDD very useful in such scenarios.
 
 %\begin{table}[t]
 %\caption{Sample table title}
